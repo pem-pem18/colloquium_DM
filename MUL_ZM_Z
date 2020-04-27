@@ -1,0 +1,12 @@
+void MUL_ZM_Z(bool *b, char A[]) {
+	if (A[0] == '0')
+	{
+		*b = 0;
+	}
+	else if (b == 0) {
+		*b = 1;
+	}
+	else {
+		*b = 0;
+	}
+}
