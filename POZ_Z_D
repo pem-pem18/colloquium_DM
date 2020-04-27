@@ -1,0 +1,12 @@
+int POZ_Z_D(bool b, char A[]) {
+	if (A[0] == '0')
+	{
+		return 0;
+	}
+	else if (b == 0) {
+		return 2;
+	}
+	else {
+		return 1;
+	}
+}
