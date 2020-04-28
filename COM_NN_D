@@ -14,18 +14,14 @@ int COM_NN_D(char a[45], char b[45])
 	if (m < n)
 	{
 		m = 1;
-		cout << "1";
 	}
 	if (m > n)
 	{
 		m = 2;
-		cout << "2";
 	}
 	if (m == n)
 	{
 		m = 0;
-		cout << "0";
 	}
 	return m;
-
 }
