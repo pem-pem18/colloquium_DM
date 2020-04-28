@@ -1,0 +1,11 @@
+void MUL_Nk_N(char a[], char answer[], int *lena, int *lenanswer)
+{
+	int k;
+	cout << "Введите k";
+	cin >> k;
+	for (int i = 0; i < *lena; i++) answer[i] = a[i];
+	*lenanswer = *lena + k;
+	for (int i = *lena; i <*lenanswer; i++) answer[i] = '0';
+	answer[*lenanswer] = '\0';
+
+}
