@@ -1,0 +1,10 @@
+int amount(char* mas)
+{
+	int i(0), sum(0);
+	while (mas[i] != '\0')
+	{
+		sum++; i++;
+	}
+	sum--;
+	return sum;
+}
