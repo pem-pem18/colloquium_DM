@@ -1,4 +1,4 @@
-char* TRANS_Z_N(bool b, int n, char* pointer_A) {
+char* TRANS_Z_N(bool b, int N, char* pointer_A) // b - знак, N - номер старшей позиции, pointer_A - указатель на массив (само число)
 {
 	return pointer_A; // указатель на массив (само число)
 }
