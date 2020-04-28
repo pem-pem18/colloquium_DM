@@ -1,0 +1,12 @@
+void TRANS(char* mas, int number)// number - позиция последего элемента
+{
+	int j; char buf;
+	j = number;
+	for (int i = 0; j - i >= 1; i++)
+	{
+		buf = mas[i];
+		mas[i] = mas[j];
+		mas[j] = buf;
+		j--;
+	}
+}
