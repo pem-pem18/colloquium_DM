@@ -1,0 +1,7 @@
+void TRANS_CHAR_INT(char* pointer_arrCHAR, int* pointer_arrINT, int N) // pointer_arrCHAR - указатель на чаровый массив, pointer_arrINT - указатель на интовый массив, N - количество позиций
+{
+	for (int i = 0; i < N; i++)
+	{
+		*(pointer_arrINT + i) = *(pointer_arrCHAR + i) - int('0');
+	}
+}
