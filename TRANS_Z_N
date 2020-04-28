@@ -1,6 +1,4 @@
-void TRANS_Z_N(bool* b, int n, char A[]) {
-	if (*b==0)
-	{
-		*b = -1;
-	}
+char* TRANS_Z_N(bool b, int n, char* pointer_A) {
+{
+	return pointer_A; // указатель на массив (само число)
 }
