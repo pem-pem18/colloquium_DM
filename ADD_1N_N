@@ -1,0 +1,104 @@
+int ADD_1N_N(char a[45],char b[45])// еще надо добавить меню с выбором, к какому числу добавляем единицу
+{
+
+	const int maxsize = 100;
+	int lena;  //создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
+	lena = strlen(a);
+	int x[maxsize] = { 0 };
+	for (int i = 0; i < lena; i++)
+		x[lena - i] = int(a[i]) - 48;
+	int c = 1, sch(45);
+	for (int i = 1; i <= lena; ++i)  //прибавляем 1
+	{
+		if (c == 1 & sch==45 )
+		{
+			c = x[i] + 1;
+			x[i] =c%10;
+		}
+		if (c == 0)
+		{
+			x[i];
+		}
+		
+		if (c <= 9)
+			c = 0;
+		else
+		{
+			c = 1;
+			if (i == lena & sch==45)
+			{ 
+				x[i + 1] = 1;
+				lena = lena + 1;
+				sch = 0;
+
+			}
+		};
+	}
+	int j(0);
+	a[45] = {};
+	for (int i = lena; i >= 0; i--)
+	{
+		if (i != 0)
+			a[j] = x[i]+'0';
+		else
+			a[j] = '\0';
+
+		
+		j++;
+
+	}
+	for (int i=0; a[i]!='\0'; i++)
+		cout << a[i]-'0';
+
+//для b
+	int lenb;  //создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
+	lenb = strlen(b); int c = 0;
+	int y[maxsize] = { 0 };
+	for (int i = 0; i < lenb; i++)
+		y[lenb - i] = int(b[i]) - 48;
+
+	int c = 1, sch(45);
+	for (int i = 1; i <= lenb; ++i)  //прибавляем 1
+	{
+		if (c == 1 & sch == 45)
+		{
+			c = y[i] + 1;
+			y[i] = c % 10;
+		}
+		if (c == 0)
+		{
+			y[i];
+		}
+
+		if (c <= 9)
+			c = 0;
+		else
+		{
+			c = 1;
+			if (i == lenb & sch == 45)
+			{
+				y[i + 1] = 1;
+				lena = lenb + 1;
+				sch = 0;
+
+			}
+		};
+	}
+	int j(0);
+	b[45] = {};
+	for (int i = lenb; i >= 0; i--)
+	{
+		if (i != 0)
+			b[j] = y[i] + '0';
+		else
+			b[j] = '\0';
+
+
+		j++;
+
+	}
+	for (int i = 0; b[i] != '\0'; i++)
+		cout << b[i] - '0';
+
+	return a[45], b[45];
+}
