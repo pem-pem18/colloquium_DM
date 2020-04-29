@@ -1,4 +1,4 @@
-void MUL_ND_N(char a[], char ans[], int *lena)
+void MUL_ND_N(char a[], char ans[], int *lena, int D)
 {
 
 	
@@ -8,9 +8,6 @@ void MUL_ND_N(char a[], char ans[], int *lena)
 	for (int i = 0; i < *lena; i++)
 		ans[i] = ans[i] - 48;
 	
-	int D;
-	cout << "Введите число D\n";
-	cin >> D;
 
 	TRANS(ans, *lena-1);
 	
