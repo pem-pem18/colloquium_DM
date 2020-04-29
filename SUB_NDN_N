@@ -1,4 +1,4 @@
-void SUB_NDN_N(char a[], char b[], char answer[], int *lena, int *lenb, int *lenanswer)
+void SUB_NDN_N(char a[], char b[], char answer[], int *lena, int *lenb, int *lenanswer, int D)
 {
 	char ans[45];
 	int m = COM_NN_D(a, b);
@@ -8,7 +8,7 @@ void SUB_NDN_N(char a[], char b[], char answer[], int *lena, int *lenb, int *len
 	{
 	case 2: 
 		do {
-			MUL_ND_N(b,ans,lenb);
+			MUL_ND_N(b,ans,lenb, D);
 			m1 = COM_NN_D(ans, b);
 			if (m1 == 2) SUB_NN_N(ans, b, answer, lena, lenb, lenanswer);
 			else {
@@ -21,7 +21,7 @@ void SUB_NDN_N(char a[], char b[], char answer[], int *lena, int *lenb, int *len
 	case 1:
 		do
 		{
-			MUL_ND_N(a,ans, lena);
+			MUL_ND_N(a,ans, lena, D);
 			m1 = COM_NN_D(ans, a);
 			if (m1==2) SUB_NN_N(ans, a, answer, lena, lenb, lenanswer);
 			else cout << "Ошибка! Неположительный результат!\n";
