@@ -1,27 +1,47 @@
 int COM_NN_D(char a[45], char b[45])
 {
-	int m(0), n(0);
-	for (int i = 0; a[i] != '\0'; ++i)
-	{
-		m =( (m + a[i])-48) * 10;
-	}
-	for (int i = 0; b[i] != '\0'; ++i)
-	{
-		n = ((n + b[i])-48) * 10;
-	}
-	m = m / 10;
-	n = n / 10;
-	if (m < n)
-	{
-		m = 1;
-	}
-	if (m > n)
-	{
+	const int maxsize = 100;
+	int lena;  //создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
+	lena = strlen(a);
+	int x[maxsize] = { 0 };
+	for (int i = 0; i < lena; i++)
+		x[i] = int(a[i]) - 48;
+	int m(0);
+	
+	int lenb;  //создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
+	lenb = strlen(b);
+	int y[maxsize] = { 0 };
+	for (int i = 0; i < lenb; i++)
+		y[i] = int(b[i]) - 48;
+
+
+	if (lena > lenb)
 		m = 2;
-	}
-	if (m == n)
+	if (lena < lenb)
+		m = 1;
+	if (lena == lenb) 
 	{
-		m = 0;
-	}
+		int i(0);
+		while (m==0 and i>=0)//проверяем, какое число больше при равной длине
+		{ 
+			if (x[i] > y[i])
+			{ 
+				m = 2;//первое число больше
+				break;
+			}
+			if (x[i] < y[i])
+			{
+				m = 1;//второе число больше
+				break;
+			}
+			if (x[i] == y[i])
+				m = 0;//одинаковые
+			i++;
+			
+		}
+	}	
+	//cout << m;
+	
 	return m;
+
 }
