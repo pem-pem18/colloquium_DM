@@ -1,25 +1,26 @@
-void SUB_NN_N(char a[], char b[], char answer[], int*lena, int *lenb, int*maxx) {  //на вход поступают два массива- числа, с которыми будут выполняться опреации
+void SUB_NN_N(char a[45], char b[45]) {  //на вход поступают два массива- числа, с которыми будут выполняться опреации
 	const int maxsize = 100;
+	int maxx = 0;
+	
 
-
-
-	  //создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
-
+	int lena;  //создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
+	lena = strlen(a);
 	int x[maxsize] = { 0 };
-	for (int i = 0; i < *lena; i++)
-		x[*lena - i] = int(a[i]) - 48;
+	for (int i = 0; i < lena; i++)
+		x[lena - i] = int(a[i]) - 48;
 
-	//создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
+	int lenb;  //создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
+	lenb = strlen(b);
 	int y[maxsize] = { 0 };
-	for (int i = 0; i < *lenb; i++)
-		y[*lenb - i] = int(b[i]) - 48;
-	if (*lena > *lenb)
-		*maxx = *lena;
+	for (int i = 0; i < lenb; i++)
+		y[lenb - i] = int(b[i]) - 48;
+	if (lena > lenb)
+		maxx = lena;
 	else
-		*maxx = *lenb;
+		maxx = lenb;
 
 	if (COM_NN_D(a, b) == 1) {  //если второе число больше первого, меняем их местами
-		for (int i = 1; i <= *maxx; ++i) {
+		for (int i = 1; i <= maxx; ++i) {
 			int k = x[i];
 			x[i] = y[i];
 			y[i] = k;
@@ -27,35 +28,17 @@ void SUB_NN_N(char a[], char b[], char answer[], int*lena, int *lenb, int*maxx) 
 
 	}
 
-	
-	TRANS(a, *lena - 1);
-	TRANS(b, *lenb - 1);
-
 	int c = 0;
-	for (int i = 0; i < *lenb; ++i)  //выполняем операцию вычитания
+	for (int i = 1; i <= maxx; ++i)  //выполняем операцию вычитания
 	{
-		c = c + a[i] - b[i] + 10;
-		answer[i] = c % 10;
+		c = c + x[i] - y[i] + 10;
+		x[i] = c % 10;
 		if (c <= 9)c = -1;
 		else c = 0;
 	}
 
-	if (amount(answer) > 1) 
-	{
-		while (answer[*maxx] == 0 && *maxx > 1)
-			maxx--;
-		while (answer[*maxx - 1] < 0 && *maxx > 1)
-			--*maxx;
-	}
-	else *maxx = 1;
 
-	for (int i = 0; i < *maxx; i++)
-	{
-		answer[i] = answer[i] + 48;
-	}
-	answer[*maxx] = '\0';
-	TRANS(answer, *maxx - 1);
-	TRANS(a, *lena - 1);
-	
-	
+	while (x[maxx] == 0 && maxx > 1)
+		maxx--;
+
 }
