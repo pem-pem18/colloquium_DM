@@ -8,7 +8,7 @@ void MUL_ND_N(char a[], char ans[], int *lena, int D)
 	for (int i = 0; i < *lena; i++)
 		ans[i] = ans[i] - 48;
 	
-
+	
 	TRANS(ans, *lena-1);
 	
 	int j;
