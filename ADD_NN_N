@@ -1,0 +1,64 @@
+void ADD_NN_N(char a[45], char b[45])
+{
+	const int maxsize = 100;
+	int maxx = 0;
+
+
+	int lena;  //создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
+	lena = strlen(a);
+	int x[maxsize] = { 0 };
+	for (int i = 0; i < lena; i++)
+		x[lena - i] = int(a[i]) - 48;
+
+	int lenb;  //создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
+	lenb = strlen(b); int c = 0;
+	int y[maxsize] = { 0 };
+	for (int i = 0; i < lenb; i++)
+		y[lenb - i] = int(b[i]) - 48;
+	if (lena > lenb)
+		maxx = lena;
+	else
+		maxx = lenb;
+
+	if (COM_NN_D(a, b) == 1) {  //если второе число больше первого, меняем их местами
+		for (int i = 1; i <= maxx; ++i) {
+			int k = x[i];
+			x[i] = y[i];
+			y[i] = k;
+		}
+
+	}
+
+	int f (0), sch(1);
+
+	for (int i = 1; i <= maxx; ++i)  //выполняем операцию сложения 
+	{ 
+		if (sch == 1)
+		{
+			f = f + x[i] + y[i];
+			x[i] = f % 10;
+		}
+
+		if (f <= 9)
+			f = 0;
+		else 
+		{ 
+			f = f/10;
+			if (i == maxx & sch==1)
+			{ 
+				x[i + 1] = 1;
+				maxx++;
+				sch = 0;
+			}
+
+		}
+
+	}
+
+
+	while (x[maxx] == 0 && maxx > 1)
+		maxx--;
+
+	for (int i = maxx; i >= 1; i--)  //выводим массив
+		cout << x[i];
+}
