@@ -1,0 +1,138 @@
+void DIV_NN_N(char*mas_1, char*mas_2, char*mas_3)
+{
+	int com, am_1, am_2, am_a,am_b,am_c, am_e, am_d, i(0), cou(0);
+	for (int i = 0; i < 45; i++) mas_3[i] = '0';
+	am_1 = amount(mas_1);
+	am_2 = amount(mas_2);
+	com = COM_NN_D(mas_1, mas_2);
+	TRANS(mas_1, am_1 - 1);
+	TRANS(mas_2, am_2 - 1);
+	if (com == 1) mas_3[i] = 0;
+	else
+	{
+		char a[45], b[45], c[45], d[45], e[45];
+
+		for (i = 0; i < 45; i++)
+		{
+			a[i] = '0';
+			b[i] = '0';
+			c[i] = '0';
+			d[i] = '0';
+			e[i] = '0';
+		}
+		int k_1, k_2;
+		k_2 = am_1 - am_2; k_1 = am_1 - 1;
+		for (i = am_2 - 1; i >= 0; i--)
+		{
+			b[i] = mas_2[i];
+			a[i] = mas_1[k_1];
+			k_1--;
+
+		}
+		am_b = am_2;
+		am_a = am_1-1;
+		a[am_2] = '\0';
+		b[am_2] = '\0';
+		
+		int comp, index(0), prop(0);
+		do
+		{
+			cou = 0;
+			am_a = amount(a);
+			TRANS(a, am_a-1);
+			TRANS(b, am_b-1);
+			comp = COM_NN_D(a, b);
+			TRANS(a, am_a-1);
+			TRANS(b, am_b-1);
+			while (comp == 1)
+			{
+				int am_a = amount(a);
+				if (am_a == 0) am_a = 1;
+				if (k_2 == 0)
+				{
+					prop = 1; break;
+				}
+
+				for (i = am_a - 1; i >= 0; i--) a[i + 1] = a[i];
+				a[am_a+1] = '\0';
+				if (a[am_a] == '0') a[am_a] = '\0';
+				k_2--;
+				a[0] = mas_1[k_2];
+				cou++;
+				am_a = amount(a);
+				TRANS(a, am_a - 1);
+				TRANS(b, am_b - 1);
+				comp = COM_NN_D(a, b);
+				TRANS(a, am_a - 1);
+				TRANS(b, am_b - 1);
+			}
+
+
+			if (cou > 1) index = index + cou - 1;
+			if (prop != 1)
+			{
+				int dig(0), k;
+				c[am_b] = '\0';
+				do
+				{
+					am_c = amount(c);
+					am_b = amount(b);
+					TRANS(c, am_c - 1);
+					TRANS(b, am_b - 1);
+					ADD_NN_N(c, b, e);
+					am_e = amount(e);
+					TRANS(e, am_e - 1);
+					TRANS(b, am_b - 1);
+					
+					for (i = 0; i < am_e; i++)
+					{
+						c[i] = e[i]; e[i] = '0';
+					}
+					c[am_e] = '\0';
+					dig++;
+					am_a = amount(a);
+					am_c = amount(c);
+					TRANS(a, am_a-1);
+					TRANS(c, am_e-1);
+					k = COM_NN_D(a, c);
+					TRANS(a, am_a-1);
+					TRANS(c, am_c - 1);
+
+				} while (k != 1);
+				dig--;
+				am_c = amount(c);
+				TRANS(c, am_c - 1);
+				TRANS(b, am_b - 1);
+				SUB_NN_N(c, b, e);
+				
+				TRANS(c, am_c - 1);
+				TRANS(b, am_b - 1);
+				mas_3[index] = dig+48;
+			}
+			else mas_3[index] = '0';
+			
+			TRANS(a, am_a - 1);
+			if (prop == 1) e[1] = '\0';
+			SUB_NN_N(a, e, d);
+			am_a = amount(a);
+			am_d = amount(d);
+			TRANS(a, am_a - 1);
+			TRANS(e, am_e - 1);
+			TRANS(d, am_d - 1);
+			for (i = 0; i < am_a; i++) a[i] = '0';
+			for (i = 0; i < am_d; i++) a[i] = d[i];
+			am_a = am_d;
+			a[am_a] = '\0';
+			for (i = 0; i < 45; i++)
+			{
+				c[i] = '0'; e[i] = '0'; d[i] = '0';
+			}
+			index++;
+		} while (k_2 != 0);
+
+		mas_3[index] = '\0';
+		TRANS(mas_1, am_1 - 1);
+		TRANS(mas_2, am_2 - 1);
+		
+	}
+}
