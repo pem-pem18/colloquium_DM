@@ -1,44 +1,54 @@
-void SUB_NN_N(char a[45], char b[45]) {  //на вход поступают два массива- числа, с которыми будут выполняться опреации
-	const int maxsize = 100;
-	int maxx = 0;
-	
+void SUB_NN_N(char*a, char*b, char*res)//////вычитание из 1 массиво второго
+{
+	int size, size_ans(0), am_1, am_2;
+	am_1 = amount(a);
+	am_2 = amount(b);
 
-	int lena;  //создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
-	lena = strlen(a);
-	int x[maxsize] = { 0 };
-	for (int i = 0; i < lena; i++)
-		x[lena - i] = int(a[i]) - 48;
-
-	int lenb;  //создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
-	lenb = strlen(b);
-	int y[maxsize] = { 0 };
-	for (int i = 0; i < lenb; i++)
-		y[lenb - i] = int(b[i]) - 48;
-	if (lena > lenb)
-		maxx = lena;
-	else
-		maxx = lenb;
-
-	if (COM_NN_D(a, b) == 1) {  //если второе число больше первого, меняем их местами
-		for (int i = 1; i <= maxx; ++i) {
-			int k = x[i];
-			x[i] = y[i];
-			y[i] = k;
-		}
-
-	}
-
-	int c = 0;
-	for (int i = 1; i <= maxx; ++i)  //выполняем операцию вычитания
+	TRANS(a, am_1 - 1);
+	TRANS(b, am_2 - 1);
+	int first[45] = { 0 }, second[45] = { 0 };
+	int resault[45] = { 0 };
+	for (int i = 0; i < am_1; i++) first[i] = a[i]-48;
+	for (int i = 0; i < am_2; i++) second[i] = b[i]-48;
+	size = am_1;
+	int i, buf;
+	for (i = 0; i < size; i++)
 	{
-		c = c + x[i] - y[i] + 10;
-		x[i] = c % 10;
-		if (c <= 9)c = -1;
-		else c = 0;
+		buf = i;
+		if (first[i] >= second[i])
+		{
+			resault[i] = first[i] - second[i];
+		}
+		
+		else
+		{
+			if (first[i + 1] == 0)
+			{
+				first[i] = first[i] + 10;
+				resault[i] = first[i] - second[i];
+				i++;
+				while (first[i] == 0)
+				{
+					first[i] = 9; i++;
+				}
+				first[i] = first[i] - 1;
+				i = buf;
+			}
+			else
+			{
+				first[i] = first[i] + 10;
+				resault[i] = first[i] - second[i];
+				i++;
+				first[i]--;
+				i = buf;
+			}
+		}
 	}
 
-
-	while (x[maxx] == 0 && maxx > 1)
-		maxx--;
-
+	TRANS(a, am_1 - 1);
+	TRANS(b, am_2 - 1);
+	while (resault[size - 1] == 0 && size>1) size--;
+	for (int i = 0; i < size; i++) res[i] =resault[i]+ 48;
+	TRANS(res, size - 1);
+	res[size] = '\0';
 }
