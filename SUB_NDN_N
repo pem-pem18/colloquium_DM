@@ -1,37 +1,35 @@
-void SUB_NDN_N(char a[], char b[], char answer[], int *lena, int *lenb, int *lenanswer, int D)
+void SUB_NDN_N(char* a, char* b, char* answer, int* lena, int* lenb, int* lenanswer, int D)
 {
 	char ans[45];
 	int m = COM_NN_D(a, b);
 	int m1;
-	
+
 	switch (m)
 	{
-	case 2: 
-		do {
-			MUL_ND_N(b,ans,lenb, D);
-			m1 = COM_NN_D(ans, b);
-			if (m1 == 2) SUB_NN_N(ans, b, answer, lena, lenb, lenanswer);
+	case 2:
+		
+			MUL_ND_N(b, ans, lenb, D);
+			m1 = COM_NN_D(a, ans);
+			if (m1 == 2) SUB_NN_N(a, ans, answer);
 			else {
 				cout << "Ошибка! Неположительный результат!\n";
 			}
-		} while (m1 != 2);
-		 
-	break;
+		
+
+		break;
 
 	case 1:
-		do
-		{
-			MUL_ND_N(a,ans, lena, D);
-			m1 = COM_NN_D(ans, a);
-			if (m1==2) SUB_NN_N(ans, a, answer, lena, lenb, lenanswer);
+		
+			MUL_ND_N(a, ans, lena, D);
+			m1 = COM_NN_D(b, ans);
+			if (m1 == 2) SUB_NN_N(b, ans, answer);
 			else cout << "Ошибка! Неположительный результат!\n";
 
-		} while (m1 != 2);
 		break;
 	case 0:
 		cout << "Получить неотрицательный результат невозможно!";
-		answer ='\0';
+		*answer = '\0';
 		break;
 	}
-	
+
 }
