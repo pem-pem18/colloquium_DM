@@ -1,0 +1,12 @@
+/*НОК чисел
+Принимаемые значения: mas_1 - первое число, mas_2 - второе число, answer - массив для результата;
+Алгоритм: НОК(a, b)=a·b:НОД(a, b)  */
+
+void LCM_NN_N(char* mas_1, char* mas_2, char* answer)
+{
+	char res[45];
+	char res1[45];
+	MUL_NN_N(mas_1, mas_2, res);    //находим a*b
+	GCF_NN_N(mas_1, mas_2, res1);    //НОД(a, b)
+	DIV_NN_N(res, res1, answer);     
+}
