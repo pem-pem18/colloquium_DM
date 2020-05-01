@@ -1,4 +1,10 @@
-void GCF_NN_N(char* mas_1, char* mas_2, char* answer) //НОД чисел
+
+/*НОД чисел
+Принимаемые значения: mas_1 - первое число, mas_2 - второе число, answer - массив для результата;
+Алгоритм: НОК(a, b)=a·b:НОД(a, b)  */
+
+
+void GCF_NN_N(char* mas_1, char* mas_2, char* answer) 
 {
 	int m;
 	char res[45];
