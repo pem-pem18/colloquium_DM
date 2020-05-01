@@ -1,7 +1,8 @@
-void ADD_NN_N(char a[], char b[], char ans[])
+void ADD_NN_N(char *a[], char *b[])
 {
 	const int maxsize = 100;
 	int maxx = 0;
+	char ans[];
 
 
 	int lena;  //создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
