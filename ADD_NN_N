@@ -1,4 +1,4 @@
-void ADD_NN_N(char a[45], char b[45])
+void ADD_NN_N(char a[], char b[], char ans[])
 {
 	const int maxsize = 100;
 	int maxx = 0;
@@ -29,24 +29,24 @@ void ADD_NN_N(char a[45], char b[45])
 
 	}
 
-	int f (0), sch(1);
+	int f(0), sch(1);
 
 	for (int i = 1; i <= maxx; ++i)  //выполняем операцию сложения 
-	{ 
+	{
 		if (sch == 1)
 		{
 			f = f + x[i] + y[i];
-			x[i] = f % 10;
+			ans[i] = f % 10;
 		}
 
 		if (f <= 9)
 			f = 0;
-		else 
-		{ 
-			f = f/10;
-			if (i == maxx & sch==1)
-			{ 
-				x[i + 1] = 1;
+		else
+		{
+			f = f / 10;
+			if (i == maxx && sch == 1)
+			{
+				ans[i + 1] = 1;
 				maxx++;
 				sch = 0;
 			}
@@ -56,9 +56,10 @@ void ADD_NN_N(char a[45], char b[45])
 	}
 
 
-	while (x[maxx] == 0 && maxx > 1)
+	while (ans[maxx] == 0 && maxx > 1)
 		maxx--;
-
-	for (int i = maxx; i >= 1; i--)  //выводим массив
-		cout << x[i];
+	TRANS(ans, maxx);
+	for (int i = 0; i < maxx; i++) ans[i] += 48;
+	ans[maxx] = '\0';
+	
 }
