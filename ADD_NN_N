@@ -1,3 +1,4 @@
+//сложение чисел
 int ADD_NN_N(char *a[], char *b[])
 {
 	const int maxsize = 100;
