@@ -1,0 +1,9 @@
+void MOD_NN_N(char* mas_1, char* mas_2, char* answer) //остаток от деления
+{
+	char mas_3[45];
+	DIV_NN_N(mas_1, mas_2, mas_3);   //находим целое частное
+	char ans[45];
+	MUL_NN_N(mas_2, mas_3, ans);  //перемножаем делитель и целое частное
+	SUB_NN_N(mas_1, ans, answer); //находим разность = остаток
+	
+}
