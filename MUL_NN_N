@@ -1,0 +1,45 @@
+void MUL_NN_N(char*a, char*b, char*ans)
+{
+	int mas_1[45] = { 0 }, mas_2[45] = { 0 };
+	int mas_3[90] = { 0 };
+	
+	int cols_1 = amount(a);
+	int cols_2 = amount(b);
+	TRANS(a, cols_1 - 1);
+	TRANS(b, cols_2 - 1);
+	for (int i = 0; i < cols_1; i++) mas_1[i] = a[i] - 48;
+	for (int i = 0; i < cols_2; i++) mas_2[i] = b[i] - 48;
+
+	int size_ans(0), buf1, i, j, buf;
+	for (i = 0; i < cols_2; i++)
+	{
+		size_ans = i;
+		for (j = 0; j < cols_1; j++)
+		{
+			mas_3[size_ans] = mas_1[j] * mas_2[i] + mas_3[size_ans];
+			if (mas_3[size_ans] >= 10)
+			{
+				buf1 = size_ans;
+				while (mas_3[size_ans] >= 10)
+				{
+					buf = mas_3[size_ans] / 10;
+					mas_3[size_ans] = mas_3[size_ans] - (buf* 10);
+					size_ans++;
+					mas_3[size_ans] = mas_3[size_ans] + buf;
+
+				}
+				size_ans = buf1; size_ans++;
+			}
+			else size_ans++;
+		}
+	}
+	
+	if (mas_3[cols_1 + cols_2 - 1] != 0) size_ans++;
+	for (int i = 0; i < size_ans; i++) ans[i] = mas_3[i] + 48;
+
+	ans[size_ans] = '\0';
+	TRANS(ans, size_ans - 1);
+	TRANS(a, cols_1 - 1);
+	TRANS(b, cols_2 - 1);
+
+}
