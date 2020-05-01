@@ -1,4 +1,4 @@
-void ADD_NN_N(char *a[], char *b[])
+int ADD_NN_N(char *a[], char *b[])
 {
 	const int maxsize = 100;
 	int maxx = 0;
@@ -61,6 +61,7 @@ void ADD_NN_N(char *a[], char *b[])
 		maxx--;
 	TRANS(ans, maxx);
 	for (int i = 0; i < maxx; i++) ans[i] += 48;
-	ans[maxx] = '\0';
+		ans[maxx] = '\0';
+	return ans[45];
 	
 }
