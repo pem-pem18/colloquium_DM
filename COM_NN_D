@@ -1,4 +1,4 @@
-int COM_NN_D(char a[45], char b[45])
+int COM_NN_D(char *a[45], char *b[45])
 {
 	const int maxsize = 100;
 	int lena;  //создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
