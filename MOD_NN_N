@@ -1,4 +1,8 @@
-void MOD_NN_N(char* mas_1, char* mas_2, char* answer) //остаток от деления
+/*Остаток от деления
+Принимаемые значения: mas_1 - делимое, mas_2 - делитель, answer - массив для результата;
+Алгоритм: a = N*b + r (А - делимое, B - делитель, r - остаток) -> r = a - N*b  */
+
+void MOD_NN_N(char* mas_1, char* mas_2, char* answer) 
 {
 	char mas_3[45];
 	DIV_NN_N(mas_1, mas_2, mas_3);   //находим целое частное
