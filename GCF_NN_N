@@ -1,0 +1,28 @@
+void GCF_NN_N(char* mas_1, char* mas_2, char* answer) //НОД чисел
+{
+	int m;
+	char res[45];
+	while (NZER_N_B(res)==1)         //делаем пока одно из чисел не станет 0
+	{
+
+		if (COM_NN_D(mas_1, mas_2) == 2)  //если первое число > второго
+		{
+			MOD_NN_N(mas_1, mas_2, res);   
+			for (int i = 0; i < sizeof(mas_2) or i<sizeof(res); i++)
+			{
+				answer[i] = mas_2[i];        //запоминаем значение делителя
+				mas_1[i] = res[i];           //первое число заменяем остатком от деления
+			}
+		}
+		else {                                  // если первое число <= второго
+			MOD_NN_N(mas_2, mas_1, res);
+			for (int i = 0; i < sizeof(mas_1) or i < sizeof(res); i++)
+			{
+				answer[i] = mas_1[i];
+				mas_2[i] = res[i];
+			}
+		}
+	} 
+}
+
+
