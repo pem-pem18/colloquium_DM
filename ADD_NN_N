@@ -1,9 +1,8 @@
 //сложение чисел
-int ADD_NN_N(char *a[], char *b[])
+void ADD_NN_N(char* a, char* b, char* ans)
 {
 	const int maxsize = 100;
 	int maxx = 0;
-	char ans[];
 
 
 	int lena;  //создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
@@ -62,7 +61,6 @@ int ADD_NN_N(char *a[], char *b[])
 		maxx--;
 	TRANS(ans, maxx);
 	for (int i = 0; i < maxx; i++) ans[i] += 48;
-		ans[maxx] = '\0';
-	return ans[45];
-	
+	ans[maxx] = '\0';
+
 }
