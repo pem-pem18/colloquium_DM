@@ -1,10 +1,11 @@
+///Вычисление КОЛИЧЕСТВА элементов в массиве.
 int amount(char* mas)
 {
-	int i(0), sum(0);
-	while (mas[i] != '\0')
-	{
-		sum++; i++;
-	}
-	sum--;
-	return sum;
+int sum(0);
+while (mas[sum] != '\0')
+{
+sum++;
+}
+
+return sum;
 }
