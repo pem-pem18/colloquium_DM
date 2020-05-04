@@ -40,8 +40,6 @@ int COM_NN_D(char *a, char *b)
 			
 		}
 	}	
-	//cout << m;
-	
 	return m;
 
 }
