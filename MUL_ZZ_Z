@@ -2,6 +2,10 @@ void MUL_ZZ_Z(bool b1, char A1[], bool* bAns, char ans[], bool b2, char A2[]) {
 	int poz1, poz2, biggest;
 	poz1 = POZ_Z_D(b1, A1);
 	poz2 = POZ_Z_D(b2, A2);
+	char* ssa1, * ssa2, * ssans;
+	ssa1 = &A1[0];
+	ssa2 = &A2[0];
+	ssans = &ans[0];
 	biggest = COM_NN_D(A1, A2);
 	MUL_NN_N(ssa1, ssa2, ssans);
 	if ((poz1 == 1 && poz2 == 1) || (poz1 == 2 && poz2 == 2) || poz1 == 0 || poz2 == 0)
