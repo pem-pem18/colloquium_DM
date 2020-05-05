@@ -1,0 +1,40 @@
+int ADD_PP_P(char **polinomio_factors_1_N, char **polinomio_factors_1_D, 
+			 char **polinomio_factors_2_N, char **polinomio_factors_2_D, 
+			 char **polinomio_factors_ans_N, char **polinomio_factors_ans_D,
+		     int degree_P1, int degree_P2)
+{
+	int degree_ans;
+	bool sign_1, sign_2, sign_ans;
+	degree_P1 > degree_P2 ? degree_ans = degree_P1 : degree_ans = degree_P2;
+	if (degree_P1 == degree_P2) degree_ans = degree_P1;
+
+	for (int i = 0; i < degree_ans; i++)
+	{
+		if (polinomio_factors_1_N[i][0] == 45) sign_1 = 1; else sign_1 = 0;
+		if (polinomio_factors_2_N[i][0] == 45) sign_2 = 1; else sign_2 = 0;
+		sign_ans = 0;
+		if (polinomio_factors_1_N[i] == NULL && polinomio_factors_2_N[i] == NULL) break;
+		if (polinomio_factors_1_N[i] == NULL && polinomio_factors_2_N[i] != NULL)
+		{
+			polinomio_factors_ans_N[i] = polinomio_factors_2_N[i];
+			polinomio_factors_ans_D[i] = polinomio_factors_2_D[i];
+		}
+		if (polinomio_factors_1_N[i] != NULL && polinomio_factors_2_N[i] == NULL)
+		{
+			polinomio_factors_ans_N[i] = polinomio_factors_1_N[i];
+			polinomio_factors_ans_D[i] = polinomio_factors_1_D[i];
+		}
+		if (polinomio_factors_1_N[i] != NULL && polinomio_factors_2_N[i] != NULL)
+		{
+			ADD_QQ_Q(sign_1, polinomio_factors_1_N[i], polinomio_factors_1_D[i],
+				sign_2, polinomio_factors_2_N[i], polinomio_factors_2_D[i],
+				sign_ans, polinomio_factors_ans_N[i], polinomio_factors_ans_D[i]);
+		}
+		for (int i = 0; polinomio_factors_ans_N != NULL; i++)
+		{
+			if (polinomio_factors_ans_N[i][0] == 48) degree_ans -= 1;
+			else break;
+		}
+	}
+	return degree_ans;
+}
