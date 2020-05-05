@@ -1,0 +1,16 @@
+void DIV_QQ_Q(bool sign_1, char *numerator_1, char *denominator_1, 
+			  bool sign_2, char *numerator_2, char *denominator_2, 
+			  bool &sign_a, char *numerator_a, char *denominator_a)
+{
+	bool repeat(0);
+	int i = 0;
+	while (numerator_2[i] == 48) i++;
+	if (numerator_2[i] == '\0') repeat = 1;
+	else repeat = 0;
+	if (!repeat)
+	{
+		bool sign_D1 = 0, sign_D2 = 0, sign_Da;
+		MUL_ZZ_Z(numerator_1, sign_1, denominator_2, sign_D2, numerator_a, sign_a);
+		MUL_ZZ_Z(denominator_1, sign_D1, numerator_2, sign_2, denominator_a, sign_Da);
+	}
+}
