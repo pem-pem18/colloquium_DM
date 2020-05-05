@@ -1,0 +1,21 @@
+void DIV_NN_Dk(char* num_1, char* num_2, char* result)
+{
+	char ten[45] = { 0 }; // 10 в степени k
+	int len_res(0);
+
+	DIV_NN_N(num_1, num_2, result);
+
+	len_res = amount(result);
+	// получили (степень 10) + 1
+
+	result[1] = '\0';
+
+	ten[0] = '1';
+	for (int i = 1; i < len_res; i++)
+	{
+		ten[i] = '0';
+	}
+	ten[len_res] = '\0';
+
+	MUL_NN_N(result, &ten[0], result);
+}
