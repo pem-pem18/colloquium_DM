@@ -33,3 +33,43 @@ void SUB_NDN_N(char* a, char* b, char* answer, int* lena, int* lenb, int* lenans
 	}
 
 }
+///////////////////В сборке почти то же самое, но вывод я делаю в функции.Так удобнее.
+void SUB_NDN_N(char* a, char* b, char* answer, int lena, int lenb, int D)
+{
+	char ans[45];
+	int lenanswer(0);
+	int m = COM_NN_D(a, b);
+	int m1;
+
+	switch (m)
+	{
+	case 2:
+		MUL_ND_N(b, ans, lenb, D);
+		m1 = COM_NN_D(a, ans);
+		if (m1 == 2) SUB_NN_N(a, ans, answer);
+		else {
+			cout << "Ошибка! Неположительный результат!\n";
+		}
+		break;
+
+	case 1:
+
+		MUL_ND_N(a, ans, lena, D);
+		m1 = COM_NN_D(b, ans);
+		if (m1 == 2) SUB_NN_N(b, ans, answer);
+		else cout << "Ошибка! Неположительный результат!\n";
+
+		break;
+	case 0:
+		cout << "Получить неотрицательный результат невозможно!";
+		*answer = '\0';
+		break;
+	}
+	if (m1 == 2)
+	{
+		cout << endl << "Результат действия: ";
+		Show(answer);
+		cout << endl;
+	}
+	system("pause");
+}
