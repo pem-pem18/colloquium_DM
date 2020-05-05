@@ -30,5 +30,38 @@ void GCF_NN_N(char* mas_1, char* mas_2, char* answer)
 		}
 	} 
 }
+///////////////////////////////////////////////////////Функция меняла значения двух чисел. Они не должны были зменяться. Поэтому так:
+void GCF_NN_N(char* mas_1, char* mas_2, char* answer)
+{
+	int m;
+	char mas1[45], mas2[45];
+	for (int i = 0; i < 45; i++)
+	{
+		mas1[i] = mas_1[i];
+		mas2[i] = mas_2[i];
+	}
+	char res[45];
+	while (NZER_N_B(res) == 1)         //делаем пока одно из чисел не станет 0
+	{
+
+		if (COM_NN_D(mas1, mas2) == 2)  //если первое число > второго
+		{
+			MOD_NN_N(mas_1, mas_2, res);
+			for (int i = 0; i < sizeof(mas_2) || i<sizeof(res); i++)
+			{
+				answer[i] = mas2[i];        //запоминаем значение делителя
+				mas1[i] = res[i];           //первое число заменяем остатком от деления
+			}
+		}
+		else {                                  // если первое число <= второго
+			MOD_NN_N(mas2, mas1, res);
+			for (int i = 0; i < sizeof(mas1) || i < sizeof(res); i++)
+			{
+				answer[i] = mas1[i];
+				mas2[i] = res[i];
+			}
+		}
+	}
+}
 
 
