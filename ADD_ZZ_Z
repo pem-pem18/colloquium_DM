@@ -1,4 +1,4 @@
-void ADD_ZZ_Z(bool b1, int n1, char A1[], bool* bAns, int* nAns, char ans[],  bool b2, int n2, char A2[]) {
+void ADD_ZZ_Z(bool b1, char A1[], bool* bAns, char ans[],  bool b2, char A2[]) {
 	int poz1, poz2, biggest;
 	poz1 = POZ_Z_D(b1, A1);
 	poz2 = POZ_Z_D(b2, A2);
