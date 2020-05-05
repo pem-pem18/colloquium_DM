@@ -3,7 +3,7 @@ char* TRANS_Z_N(bool b, int N, char* pointer_A) // b - знак, N - номер 
 	return pointer_A; // указатель на массив (само число)
 }
 ///////////////////////////
-void TRANS_Z_N(bool b) // b - знак переводимого числа
+void TRANS_Z_N(bool& b) // b - знак переводимого числа
 {
 	b = 0; // Делаем знак положительным
 }
