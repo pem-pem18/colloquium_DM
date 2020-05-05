@@ -12,3 +12,18 @@ void MUL_ZM_Z(bool *b, char A[]) {
 		*b = 0;
 	}
 }
+////////////////////////////////////Немного не верная проверка на 0
+void MUL_ZM_Z(bool *b, char A[]) {
+	int count_1 = 0, count_2(0);
+	for (int i = 0; A[i] != '\0'; i++)
+	{
+		if (A[i] == '0') count_1++;
+		count_2++;
+	}
+	if (count_1 == count_2);
+	else 
+	{
+		if (*b == 0) *b = 1;
+		else *b = 0;
+	}
+}
