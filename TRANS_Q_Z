@@ -1,5 +1,0 @@
-void TRANS_Q_Z(bool b,int N_num,char* num,int N_den,char* den){ 
-   if (INT_Q_B(b,N_num,N_den,num,den) == 1) { //проверяем является ли число целым 
-   RED_Q_Q(b,N_num,N_den,num,den); //сокращаем дробь, чтобы в знаменателе остался 1 
-   } 
-}
