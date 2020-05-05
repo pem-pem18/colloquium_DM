@@ -131,8 +131,7 @@ void DIV_NN_N(char*mas_1, char*mas_2, char*mas_3)
 		} while (k_2 != 0);
 
 		mas_3[index] = '\0';
-		TRANS(mas_1, am_1 - 1);
-		TRANS(mas_2, am_2 - 1);
-		
 	}
+	TRANS(mas_1, am_1 - 1);
+	TRANS(mas_2, am_2 - 1);
 }
