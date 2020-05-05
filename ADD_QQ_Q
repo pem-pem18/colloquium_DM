@@ -1,0 +1,15 @@
+void ADD_QQ_Q(bool sign_1, char *numerator_1, char *denominator_1, 
+			  bool sign_2, char *numerator_2, char *denominator_2,
+			  bool &sign_a, char *numerator_a, char *denominator_a)
+{
+	const int SIZE = 45;
+	char num1[SIZE], num2[SIZE], num3[SIZE], num4[SIZE];
+	bool sign1 = 0, sign2 = 0, sign3 = 0, sign4 = 0, sign_D1 = 0, sign_D2 = 0;
+	int sign_Da = 0;
+	LCM_NN_N(denominator_1, denominator_2, denominator_a);
+	DIV_ZZ_Z(denominator_a, sign_Da, denominator_1, sign_D1, num1, &sign1);
+	DIV_ZZ_Z(denominator_a, sign_Da, denominator_2, sign_D2, num2, &sign2);
+	MUL_ZZ_Z(sign_1, numerator_1, &sign3, num3, sign1, num1);
+	MUL_ZZ_Z(sign_2, numerator_2, &sign4, num4, sign2, num2);
+	ADD_ZZ_Z(sign3, num3, &sign_a, numerator_a, sign4, num4);
+}
