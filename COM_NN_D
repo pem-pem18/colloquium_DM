@@ -7,7 +7,7 @@ int COM_NN_D(char *a, char *b)
 	for (int i = 0; i < lena; i++)
 		x[i] = int(a[i]) - 48;
 	int m(0);
-	
+
 	int lenb;  //создаём целочисленный массив чтобы преобразовать в нём числовые символы к чилсам
 	lenb = strlen(b);
 	int y[maxsize] = { 0 };
@@ -19,13 +19,13 @@ int COM_NN_D(char *a, char *b)
 		m = 2;
 	if (lena < lenb)
 		m = 1;
-	if (lena == lenb) 
+	if (lena == lenb)
 	{
 		int i(0);
-		while (m==0 and i>=0)//проверяем, какое число больше при равной длине
-		{ 
+		while (m == 0 && i <= lena)//проверяем, какое число больше при равной длине
+		{
 			if (x[i] > y[i])
-			{ 
+			{
 				m = 2;//первое число больше
 				break;
 			}
@@ -37,9 +37,9 @@ int COM_NN_D(char *a, char *b)
 			if (x[i] == y[i])
 				m = 0;//одинаковые
 			i++;
-			
+
 		}
-	}	
+	}
 	return m;
 
 }
