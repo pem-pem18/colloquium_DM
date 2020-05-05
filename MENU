@@ -1,0 +1,630 @@
+// Система компьютерной алгебры
+
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
+#include <conio.h>
+
+using namespace std;
+
+// нижний хедер
+// краткая инструкция по клавишам
+int lowHeader()
+{
+	cout << endl << endl;
+	cout << "     " << char(30) << " - вверх";
+	cout << endl;
+	cout << "     " << char(31) << " - вниз";
+	cout << endl;
+	cout << "     " << char(17) << " - влево";
+	cout << endl;
+	cout << "     " << char(16) << " - вправо";
+	cout << endl;
+	cout << "   ESC - назад";
+	cout << endl;
+	cout << " ENTER - ввод";
+	cout << endl;
+
+	return 1;
+}
+
+char* ABS_Z_N(bool b, int N, char* pointer_A) // b - знак, N - номер старшей позиции, pointer_A - указатель на массив (само число)
+{
+	return pointer_A; // указатель на массив (само число)
+}
+
+int main() // МЕНЮ
+{
+	// основные переменные и переключатели
+	setlocale(0, "");
+
+	const int level_Max(10); // количество уровней (уменьшить до предела)
+	int position[level_Max] = { 0 }; // позиции курсора (для каждого уровня)
+	int level(0); // уровень погружения в меню
+
+	for (int i = 0; i < level_Max; i++) // курсор по умолчанию находится на 1-ой позиции на каждом уровне
+	{
+		position[i] = 1;
+	}
+
+	char code(0); // код нажатой клавиши
+
+	bool exit(0); // тумблер выхода из программы
+	bool contin(0); // тумблер продолжения работы программы
+
+	const int N = 45; // максимальное количество знаков в числе (при вводе)
+	//
+
+	// для целых
+	bool repeat(0), repeat1(0);
+	char number_1[N], number_2[N];
+	//
+
+	do {
+		system("cls");
+
+		cout << " Г Л А В Н О Е  М Е Н Ю" << endl << endl;
+
+		if (position[level] == 1)
+			cout << "-->";
+		cout << " Начать";
+		cout << endl;
+
+		if (position[level] == 2)
+			cout << "-->";
+		cout << " Справка";
+		cout << endl;
+
+		if (position[level] == 3)
+			cout << "-->";
+		cout << " Разработчики";
+		cout << endl;
+
+		if (position[level] == 4)
+			cout << "-->";
+		cout << " Выход";
+		cout << endl;
+
+		lowHeader();
+
+		code = _getch();
+		if (code == 224)
+			code = _getch();
+
+		if (code == 72 && position[level] > 1)
+			position[level]--;
+		if (code == 80 && position[level] < 4)
+			position[level]++;
+
+		// НАЧАТЬ
+		if (code == 13 && position[level] == 1)
+		{
+			level++;
+			do {
+				system("cls");
+
+				cout << "С чем Вы хотите работать?" << endl << endl;
+
+				if (position[level] == 1)
+					cout << "-->";
+				cout << " Натуральные числа";
+				cout << endl;
+
+				if (position[level] == 2)
+					cout << "-->";
+				cout << " Целые числа";
+				cout << endl;
+
+				if (position[level] == 3)
+					cout << "-->";
+				cout << " Рациональные числа";
+				cout << endl;
+
+				if (position[level] == 4)
+					cout << "-->";
+				cout << " Многочлены";
+				cout << endl;
+
+				lowHeader();
+
+				code = _getch();
+				if (code == 224)
+					code = _getch();
+
+				if (code == 72 && position[level] > 1)
+					position[level]--;
+				if (code == 80 && position[level] < 4)
+					position[level]++;
+
+				// НАТУРАЛЬНЫЕ ЧИСЛА
+				if (code == 13 && position[level] == 1)
+				{
+					level++;
+					do {
+						system("cls");
+
+						cout << "Выберите действие:";
+						cout << endl << endl;
+
+						if (position[level] == 1)
+							cout << "-->";
+						cout << " Сравнение натуральных чисел";
+						cout << endl;
+
+						if (position[level] == 2)
+							cout << "-->";
+						cout << " Проверка на ноль";
+						cout << endl;
+
+						if (position[level] == 3)
+							cout << "-->";
+						cout << " Добавление 1 к натуральному числу";
+						cout << endl;
+
+						if (position[level] == 4)
+							cout << "-->";
+						cout << " Сложение натуральных чисел";
+						cout << endl;
+
+						if (position[level] == 5)
+							cout << "-->";
+						cout << " Вычитание из первого большего числа второго меньшего или равного";
+						cout << endl;
+
+						if (position[level] == 6)
+							cout << "-->";
+						cout << " Умножение числа на цифру";
+						cout << endl;
+
+						if (position[level] == 7)
+							cout << "-->";
+						cout << " Умножение числа на 10^k";
+						cout << endl;
+
+						if (position[level] == 8)
+							cout << "-->";
+						cout << " Умножение чисел";
+						cout << endl;
+
+						if (position[level] == 9)
+							cout << "-->";
+						cout << " Вычитание из числа другого числа";
+						cout << endl;
+
+						if (position[level] == 10)
+							cout << "-->";
+						cout << " Вычисление первой цифры деления большего на меньшее, ДОРАБОТАТЬ";
+						cout << endl;
+
+						if (position[level] == 11)
+							cout << "-->";
+						cout << " Частное от деления большего числа на меньшее или равное с остатком";
+						cout << endl;
+
+						if (position[level] == 12)
+							cout << "-->";
+						cout << " Остаток от деления большего на меньшее или равное натуральное с остатком";
+						cout << endl;
+
+						if (position[level] == 13)
+							cout << "-->";
+						cout << " НОД чисел";
+						cout << endl;
+
+						if (position[level] == 14)
+							cout << "-->";
+						cout << " НОК чисел";
+						cout << endl;
+
+						lowHeader();
+
+						code = _getch();
+						if (code == 224)
+							code = _getch();
+
+						if (code == 72 && position[level] > 1)
+							position[level]--;
+						if (code == 80 && position[level] < 14)
+							position[level]++;
+
+					} while (code != 27);
+					code = 0;
+					position[level] = 1;
+					level--;
+				}
+
+				// ЦЕЛЫЕ ЧИСЛА
+				if (code == 13 && position[level] == 2)
+				{
+					level++;
+					do {
+						system("cls");
+
+						cout << "Выберите действие:";
+						cout << endl << endl;
+
+						if (position[level] == 1)
+							cout << "-->";
+						cout << " Абсолютная величина числа";
+						cout << endl;
+
+						if (position[level] == 2)
+							cout << "-->";
+						cout << " Определение положительности числа";
+						cout << endl;
+
+						if (position[level] == 3)
+							cout << "-->";
+						cout << " Умножение на (-1)";
+						cout << endl;
+
+						if (position[level] == 4)
+							cout << "-->";
+						cout << " Преобразование натурального в целое";
+						cout << endl;
+
+						if (position[level] == 5)
+							cout << "-->";
+						cout << " Преобразование целого неотрицательного в натуальное";
+						cout << endl;
+
+						if (position[level] == 6)
+							cout << "-->";
+						cout << " Сложение";
+						cout << endl;
+
+						if (position[level] == 7)
+							cout << "-->";
+						cout << " Вычитание";
+						cout << endl;
+
+						if (position[level] == 8)
+							cout << "-->";
+						cout << " Умножение";
+						cout << endl;
+
+						if (position[level] == 9)
+							cout << "-->";
+						cout << " Деление с остатком";
+						cout << endl;
+
+						if (position[level] == 10)
+							cout << "-->";
+						cout << " Остаток";
+						cout << endl;
+
+						lowHeader();
+
+						code = _getch();
+						if (code == 224)
+							code = _getch();
+
+						if (code == 72 && position[level] > 1)
+							position[level]--;
+						if (code == 80 && position[level] < 10)
+							position[level]++;
+
+						// СЛОЖЕНИЕ
+						if (code == 13 && position[level] == 6)
+						{
+							level++;
+							do {
+								system("cls");
+
+								printf("Введите первое число: ");
+								cin.getline(number_1, N);
+								cin.clear();
+								cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+								do
+								{
+									int i = 0;
+									while (number_1[i] != '\0')
+									{
+										if (number_1[i] > 57 || number_1[i] < 48)
+										{
+											repeat = 1;
+											break;
+										}
+										else repeat = 0;
+										i++;
+									}
+									if (repeat == 1)
+									{
+										system("cls");
+										printf("Вводить нужно только цифры: от 0 до 9. Попробуйте снова!\n");
+										printf("Введите первое число: ");
+										cin.getline(number_1, N);
+										cin.clear();
+										cin.ignore(numeric_limits<streamsize>::max(), '\n');
+									}
+								} while (repeat == 1);
+
+								printf("Введите второе число: ");
+								cin.getline(number_2, N);
+								cin.clear();
+								cin.ignore(numeric_limits<streamsize>::max(), '\n');
+								repeat = 0;
+								do
+								{
+									int i = 0;
+									while (number_2[i] != '\0')
+									{
+										if (number_2[i] > 57 || number_2[i] < 48)
+										{
+											repeat = 1;
+											break;
+										}
+										else repeat = 0;
+										i++;
+									}
+									if (repeat == 1)
+									{
+										system("cls");
+										printf("Вводить нужно только цифры: от 0 до 9. Попробуйте снова!\n");
+										printf("Введите второе число: ");
+										cin.getline(number_2, N);
+										cin.clear();
+										cin.ignore(numeric_limits<streamsize>::max(), '\n');
+									}
+								} while (repeat == 1);
+							} while (code != 27);
+							code = 0;
+							position[level] = 1;
+							level--;
+						}
+
+					} while (code != 27);
+					code = 0;
+					position[level] = 1;
+					level--;
+				}
+
+				// РАЦИОНАЛЬНЫЕ ЧИСЛА
+				if (code == 13 && position[level] == 3)
+				{
+					level++;
+					do {
+						system("cls");
+
+						cout << "Выберите действие:";
+						cout << endl << endl;
+
+						if (position[level] == 1)
+							cout << "-->";
+						cout << " Сокращение дроби";
+						cout << endl;
+
+						if (position[level] == 2)
+							cout << "-->";
+						cout << " Проверка на целое";
+						cout << endl;
+
+						if (position[level] == 3)
+							cout << "-->";
+						cout << " Преобразование целого в дробное";
+						cout << endl;
+
+						if (position[level] == 4)
+							cout << "-->";
+						cout << " Преобразование дробного в целое";
+						cout << endl;
+
+						if (position[level] == 5)
+							cout << "-->";
+						cout << " Сложение дробей";
+						cout << endl;
+
+						if (position[level] == 6)
+							cout << "-->";
+						cout << " Вычитание дробей";
+						cout << endl;
+
+						if (position[level] == 7)
+							cout << "-->";
+						cout << " Умножение дробей";
+						cout << endl;
+
+						if (position[level] == 8)
+							cout << "-->";
+						cout << " Деление дробей";
+						cout << endl;
+
+						lowHeader();
+
+						code = _getch();
+						if (code == 224)
+							code = _getch();
+
+						if (code == 72 && position[level] > 1)
+							position[level]--;
+						if (code == 80 && position[level] < 8)
+							position[level]++;
+
+					} while (code != 27);
+					code = 0;
+					position[level] = 1;
+					level--;
+				}
+
+				// МНОГОЧЛЕНЫ
+				if (code == 13 && position[level] == 4)
+				{
+					level++;
+					do {
+						system("cls");
+
+						cout << "Выберите действие:";
+						cout << endl << endl;
+
+						if (position[level] == 1)
+							cout << "-->";
+						cout << " Сложение многочленов";
+						cout << endl;
+
+						if (position[level] == 2)
+							cout << "-->";
+						cout << " Вычитание многочленов";
+						cout << endl;
+
+						if (position[level] == 3)
+							cout << "-->";
+						cout << " Умножение на рациональное число";
+						cout << endl;
+
+						if (position[level] == 4)
+							cout << "-->";
+						cout << " Умножение многочлена на x^k";
+						cout << endl;
+
+						if (position[level] == 5)
+							cout << "-->";
+						cout << " Старший коэффициент многочлена";
+						cout << endl;
+
+						if (position[level] == 6)
+							cout << "-->";
+						cout << " Степень многочлена";
+						cout << endl;
+
+						if (position[level] == 7)
+							cout << "-->";
+						cout << " Вынесение из многочлена НОК знаменателей коэфф-в и НОД числителей";
+						cout << endl;
+
+						if (position[level] == 8)
+							cout << "-->";
+						cout << " Умножение многочленов";
+						cout << endl;
+
+						if (position[level] == 9)
+							cout << "-->";
+						cout << " Частное от деления многочлена на многочленпри делении с остатком";
+						cout << endl;
+
+						if (position[level] == 10)
+							cout << "-->";
+						cout << " Остаток от деления многочлена на многочлен при делении с остатком";
+						cout << endl;
+
+						if (position[level] == 11)
+							cout << "-->";
+						cout << " НОД многочленов";
+						cout << endl;
+
+						if (position[level] == 12)
+							cout << "-->";
+						cout << " Производная многочлена";
+						cout << endl;
+
+						if (position[level] == 13)
+							cout << "-->";
+						cout << " Преобразование многочлена - кратные корни в простые";
+						cout << endl;
+
+						lowHeader();
+
+						code = _getch();
+						if (code == 224)
+							code = _getch();
+
+						if (code == 72 && position[level] > 1)
+							position[level]--;
+						if (code == 80 && position[level] < 13)
+							position[level]++;
+
+					} while (code != 27);
+					code = 0;
+					position[level] = 1;
+					level--;
+				}
+
+			} while (code != 27);
+			position[level] = 1;
+			code = 0;
+			level--;
+		}
+
+		// СПРАВКА
+		if (code == 13 && position[level] == 2)
+		{
+			level++;
+			do {
+				system("cls");
+				cout << "<INSTRUCTION>";
+				cout << endl << endl;
+
+				cout << "Нажмите ESC, чтобы вернуться";
+
+				code = _getch();
+			} while (code != 27);
+			code = 0;
+			position[level] = 1;
+			level--;
+		}
+
+		// РАЗРАБОТЧИКИ
+		if (code == 13 && position[level] == 3)
+		{
+			level++;
+			do {
+				system("cls");
+
+				cout << "<...>";
+
+				cout << endl << endl;
+				cout << "Нажмите ESC, чтобы вернуться";
+
+				code = _getch();
+			} while (code != 27);
+			code = 0;
+			position[level] = 1;
+			level--;
+		}
+
+		// ВЫХОД
+		if (code == 13 && position[level] == 4)
+		{
+			level++;
+			do {
+				system("cls");
+
+				cout << " В Ы  У В Е Р Е Н Ы ,  Ч Т О  Х О Т И Т Е  В Ы Й Т И ?" << endl << endl;
+
+				if (position[level] == 1)
+					cout << "-->";
+				cout << " НЕТ";
+				cout << endl;
+
+				if (position[level] == 2)
+					cout << "-->";
+				cout << " ДА";
+				cout << endl;
+
+				lowHeader();
+
+				code = _getch();
+				if (code == 224)
+					code = _getch();
+
+				if (code == 72 && position[level] > 1)
+					position[level]--;
+				if (code == 80 && position[level] < 2)
+					position[level]++;
+
+				if (code == 13 && position[level] == 1)
+					contin = 1;
+				if (code == 13 && position[level] == 2)
+					exit = 1;
+
+			} while (code != 27 && exit == 0 && contin == 0);
+			contin = 0;
+			position[level] = 1;
+			code = 0;
+			level--;
+		}
+	} while (code != 27 && exit == 0);
+	code = 0;
+
+	system("cls");
+}
