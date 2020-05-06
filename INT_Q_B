@@ -1,15 +1,15 @@
-int INT_Q_B(bool b, int N_num, int N_den, char* num, char* den) { // знак, старшая позиция числителя, с.п. знаменателя, сам числитель, сам знаменатель 
-  char answer[45]; 
-  MOD_NN_N(num, den, answer); //остаток от деления числителя на знаменатель 
-  int k = 0, sum(0); 
-  sum = amount(answer); 
-  for (int i = 0; i<45; i++) { 
-    if (answer[i] == '0') k++; 
-  } 
-  if (k == sum) { 
-    return 1; // да 
-  } 
-  else { 
-    return 0; // нет 
-  } 
+bool INT_Q_B(bool b, char* num, char* den) { // знак, старшая позиция числителя, с.п. знаменателя, сам числитель, сам знаменатель
+	char answer[45];
+	MOD_NN_N(num, den, answer); //остаток от деления числителя на знаменатель
+	int k = 0, sum(0);
+	sum = amount(answer);
+	for (int i = 0; i<45; i++) {
+		if (answer[i] == '0') k++;
+	}
+	if (k == sum) {
+		return 1; // да
+	}
+	else {
+		return 0; // нет
+	}
 }
