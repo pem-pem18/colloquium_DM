@@ -1,10 +1,9 @@
-void RED_Q_Q(bool sign, char *numerator, char *denominator, 
-			 bool &sign_a, char *numerator_a, char *denominator_a)
+void RED_Q_Q(bool sign, char *numerator, char *denominator, bool &sign_a, char *numerator_a, char *denominator_a)
 {
 	const int SIZE = 45;
 	char NOD[SIZE] = {};
 	bool sign1 = sign;
-	int sign_NOD = 0, sign_D = 0;
+	bool sign_NOD = 0, sign_D = 0;
 	GCF_NN_N(numerator, denominator, NOD);
 	DIV_ZZ_Z(numerator, sign, NOD, sign_NOD, numerator_a, &sign_a);
 	DIV_ZZ_Z(denominator, sign_D, NOD, sign_NOD, denominator_a, &sign_D);
