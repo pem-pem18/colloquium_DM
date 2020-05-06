@@ -1,0 +1,37 @@
+void MOD_ZZ_Z(bool b1, char A1[], bool* bAns, char ans[], bool b2, char A2[]) {
+	int poz1, poz2, biggest;
+	poz1 = POZ_Z_D(b1, A1);
+	poz2 = POZ_Z_D(b2, A2);
+	char firstStep[45], secondStep[45];
+	bool bFirst(0), bSecond(0);
+	biggest = COM_NN_D(A1, A2);
+	if (biggest==0)
+	{
+		ans[0] = '0';
+		ans[1] = '\0';
+	}
+	else if (biggest == 2) {
+		DIV_ZZ_Z(b1, A1, &bFirst, firstStep, b2, A2);
+		MUL_ZZ_Z(bFirst, firstStep, &bSecond, secondStep, b2, A2);
+		if (COM_NN_D(A1,secondStep)==0)
+		{
+			ans[0] = '0';
+			ans[1] = '\0';
+		}
+		else {
+			SUB_ZZ_Z(b1, A1, bAns, ans, bSecond, secondStep);
+		}
+	}
+	else {
+		DIV_ZZ_Z(b2, A2, &bFirst, firstStep, b1, A1);
+		MUL_ZZ_Z(bFirst, firstStep, &bSecond, secondStep, b1, A1);
+		if (COM_NN_D(A2, secondStep) == 0)
+		{
+			ans[0] = '0';
+			ans[1] = '\0';
+		}
+		else {
+			SUB_ZZ_Z(b2, A2, bAns, ans, bSecond, secondStep);
+		}
+	}
+}
