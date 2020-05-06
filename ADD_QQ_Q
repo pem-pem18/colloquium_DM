@@ -1,6 +1,4 @@
-void ADD_QQ_Q(bool sign_1, char *numerator_1, char *denominator_1, 
-			  bool sign_2, char *numerator_2, char *denominator_2,
-			  bool &sign_a, char *numerator_a, char *denominator_a)
+void ADD_QQ_Q(bool sign_1, char *numerator_1, char *denominator_1, bool sign_2, char *numerator_2, char *denominator_2, bool &sign_a, char *numerator_a, char *denominator_a)
 {
 	const int SIZE = 45;
 	char num1[SIZE], num2[SIZE], num3[SIZE], num4[SIZE];
