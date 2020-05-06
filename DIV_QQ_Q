@@ -1,6 +1,4 @@
-void DIV_QQ_Q(bool sign_1, char *numerator_1, char *denominator_1, 
-			  bool sign_2, char *numerator_2, char *denominator_2, 
-			  bool &sign_a, char *numerator_a, char *denominator_a)
+void DIV_QQ_Q(bool sign_1, char *numerator_1, char *denominator_1,bool sign_2, char *numerator_2, char *denominator_2, bool &sign_a, char *numerator_a, char *denominator_a)
 {
 	bool repeat(0);
 	int i = 0;
@@ -10,7 +8,7 @@ void DIV_QQ_Q(bool sign_1, char *numerator_1, char *denominator_1,
 	if (!repeat)
 	{
 		bool sign_D1 = 0, sign_D2 = 0, sign_Da;
-		MUL_ZZ_Z(numerator_1, sign_1, denominator_2, sign_D2, numerator_a, sign_a);
-		MUL_ZZ_Z(denominator_1, sign_D1, numerator_2, sign_2, denominator_a, sign_Da);
+		MUL_ZZ_Z(sign_1,numerator_1, &sign_a, numerator_a,sign_D2,  denominator_2 );
+		MUL_ZZ_Z(sign_D1,denominator_1, &sign_Da, denominator_a,  sign_2, numerator_2);
 	}
 }
