@@ -1,0 +1,17 @@
+
+void MUL_Pxk_P(int* a, int* b, int* c,int k, int m, int*cc)
+{
+	for (int i = 0; i <= m; i++)
+	{
+		cc[i] = c[i] + k;
+	}
+}
+
+//ввод x^k
+int input_xk()
+{
+  int k;
+  cout << endl << "Введите cтепень x^" << endl;
+  cin >> k;
+  return k;
+}
