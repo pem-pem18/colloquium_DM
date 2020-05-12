@@ -780,7 +780,218 @@ void DIV_QQ_Q(bool sign_1, char *numerator_1, char *denominator_1,bool sign_2, c
 		RED_Q_Q(sign_num, num, den, sign_a, numerator_a, denominator_a);
 	}
 }
+int input_1(int* a, int* b, int* c) //ввод для первого многочлена
+{
+	int n;
+	cout << "Введите степень первого мнгочлена " << endl;
+	cin >> n;
+	int m = n;
 
+	while (n != -1)
+	{
+		cout << "Коэффициент для х^" << n << endl;
+		cout << "Введите числитель: ";
+		cin >> a[n];
+
+		cout << "Введите знаменатель:";
+		cin >> b[n];
+		if (((a[n] < 0) && (b[n] < 0)) || (b[n] < 0))
+		{
+			a[n] = a[n] * (-1);
+			b[n] = b[n] * (-1);
+		}
+		c[n] = n;
+		cout << "________________________" << endl;
+		n--;
+	}
+
+	return m;
+}
+int input_2(int*a1, int*b1, int*c1) //ввод для второго многочлена
+{
+	int n1;
+	cout << "Введите степень второго многочлена " << endl;
+	cin >> n1;
+	int m = n1;
+
+	while (n1 != -1)
+	{
+		cout << "Коэффициент для х^" << n1 << endl;
+		cout << "Введите числитель: ";
+		cin >> a1[n1];
+
+		cout << "Введите знаменатель:";
+		cin >> b1[n1];
+		if (((a1[n1] < 0) && (b1[n1] < 0)) || (b1[n1] < 0))
+		{
+			a1[n1] = a1[n1] * (-1);
+			b1[n1] = b1[n1] * (-1);
+		}
+		c1[n1] = n1;
+		cout << "________________________" << endl;
+		n1--;
+	}
+	return m;
+}
+void ShowP(int* a, int* b, int* c, int m) //вывод
+{
+	int s(1);
+	for (int i = m; i >= 0; i--)
+	{
+		if (s == 1)
+		{
+			if (a[i] == 0) cout << "";
+			else cout << a[i] << "/" << b[i] << "x^" << c[i];
+		}
+		else
+		{
+			if (a[i] > 0)
+			{
+				if (c[i] > 0)
+					cout << "+" << a[i] << "/" << b[i] << "x^" << c[i];
+				if (c[i] == 0)
+					cout << "+" << a[i] << "/" << b[i];
+			}
+			else
+			{
+				if (a[i] == 0) cout << "";
+				else
+				{
+					if (c[i] > 0)
+						cout << a[i] << "/" << b[i] << "x^" << c[i];
+					if (c[i] == 0)
+						cout << a[i] << "/" << b[i];
+				}
+			}
+
+
+		}
+		s--;
+	}
+}
+int ADD_PP_P(int* a, int* b, int* c, int* a1, int* b1, int* c1, int m, int m1, int aa[], int bb[], int cc[])
+{
+	char numerator1[45], denominator1[45], numerator2[45], denominator2[45];
+	char numerator_a[45], denominator_a[45];
+	int a_1[45], b_1[45], a_2[45], b_2[45];
+	for (int i = 0; i < 45; i++)
+	{
+		a_1[i] = a[i];
+		b_1[i] = b[i];
+		a_2[i] = a1[i];
+		b_2[i] = b1[i];
+	}
+	bool sign_a, sign1(1), sign2(1);
+	int max, min, i(0);
+	if (m > m1) {
+		max = m;
+		min = m1;
+
+		while (m != m1)
+		{
+			cc[m] = c[m];
+			aa[m] = a_1[m];
+			bb[m] = b_1[m];
+			m--;
+		}
+	}
+	else {
+		max = m1;
+		min = m;
+		while (m1 != m)
+		{
+			cc[m1] = c1[m1];
+			aa[m1] = a_2[m1];
+			bb[m1] = b_2[m1];
+			m1--;
+		}
+	}
+	for (int i = 0; i <= min; i++)
+	{
+		if (a_1[i] < 0) { sign1 = 0; a_1[i] *= (-1); }
+		if (a_2[i] < 0) { sign2 = 0; a_2[i] *= (-1); }
+		_itoa_s(a_1[i], numerator1, 10);
+		_itoa_s(b_1[i], denominator1, 10);
+		_itoa_s(a_2[i], numerator2, 10);
+		_itoa_s(b_2[i], denominator2, 10);
+		ADD_QQ_Q(sign1, numerator1, denominator1, sign2, numerator2, denominator2, sign_a, numerator_a, denominator_a);
+		aa[i] = atoi(numerator_a);
+		bb[i] = atoi(denominator_a);
+		cc[i] = i;
+		if (sign_a == 0) aa[i] *= (-1);
+	}
+	return max;
+
+}
+int SUB_PP_P(int* a, int* b, int* c, int* a1, int* b1, int* c1, int m, int m1, int aa[], int bb[], int cc[])
+{
+	char numerator1[45], denominator1[45], numerator2[45], denominator2[45];
+	char numerator_a[45], denominator_a[45];
+	bool sign_a, sign1(0), sign2(0);
+	int a_1[45], b_1[45], a_2[45], b_2[45];
+	for (int i = 0; i < 45; i++)
+	{
+		a_1[i] = a[i];
+		b_1[i] = b[i];
+		a_2[i] = a1[i];
+		b_2[i] = b1[i];
+	}
+	int max, min, i(0);
+	if (m > m1) {
+		max = m;
+		min = m1;
+
+		while (m != m1)
+		{
+			cc[m] = c[m];
+			aa[m] = a_1[m];
+			bb[m] = b_1[m];
+			m--;
+		}
+	}
+	else {
+		max = m1;
+		min = m;
+		while (m1 != m)
+		{
+			cc[m1] = c1[m1];
+			aa[m1] = a_2[m1] * (-1);
+			bb[m1] = b_2[m1];
+			m1--;
+		}
+	}
+	for (int i = 0; i <= min; i++)
+	{
+		if (a_1[i] < 0) { sign1 = 1; a_1[i] *= (-1); }
+		if (a_2[i] < 0) { sign2 = 1; a_2[i] *= (-1); }
+		_itoa_s(a_1[i], numerator1, 10);
+		_itoa_s(b_1[i], denominator1, 10);
+		_itoa_s(a_2[i], numerator2, 10);
+		_itoa_s(b_2[i], denominator2, 10);
+		SUB_QQ_Q(sign1, numerator1, denominator1, sign2, numerator2, denominator2, sign_a, numerator_a, denominator_a);
+		aa[i] = atoi(numerator_a);
+		bb[i] = atoi(denominator_a);
+		cc[i] = i;
+		if (sign_a == 1) aa[i] *= (-1);
+	}
+	return max;
+}
+void LED_P_Q(int* a, int*b, int* a1, int *b1, int m, int m1)
+{
+	if (a[m] % b[m] == 0)
+		cout << a[m] / b[m] << endl;
+	else
+		cout << a[m] << "/" << b[m] << endl;
+	if (a1[m] % b1[m] == 0)
+		cout << a1[m] / b1[m] << endl;
+	else
+		cout << a1[m1] << "/" << b1[m1] << endl;
+}
+void DEG_P_N(int m, int m1)
+{
+	cout << "Степень первого многочлена:  " << m << endl;
+	cout << "Степень второго многочлена: " << m1 << endl;
+}
 // нижний хедер
 // краткая инструкция по клавишам
 int lowHeader()
@@ -1887,7 +2098,7 @@ int main() // МЕНЮ
 						if (repeat_1 == 1)
 						{
 							system("cls");
-							printf("Вводить нужно только цифры: от 0 до 9. Помните, число не может начинаться с нуля. Попробуйте снова!\n");
+							printf("Вводить нужно только цифры: от 0 до 9. Попробуйте снова!\n");
 							printf("Введите числитель первой дроби: ");
 							cin.getline(numerator1, N); cout << endl << "Пожалуйста, нажмите Enter ещё раз ";
 							cin.clear();
@@ -1920,7 +2131,7 @@ int main() // МЕНЮ
 						if (repeat_1 == 1 || repeat_2 == 1 || denominator1[0] == 45)
 						{
 							system("cls");
-							printf("Введено неверное число. Помните, знаменатель не должен авняться нулю (либо начинаться с нуля) и не может быть отрицательным.\n");
+							printf("Вводить нужно только цифры: от 0 до 9. Попробуйте снова!\n");
 							printf("Введите знаменатель первой дроби: ");
 							cin.getline(denominator1, N); cout << endl << "Пожалуйста, нажмите Enter ещё раз ";
 							cin.clear();
@@ -1956,7 +2167,7 @@ int main() // МЕНЮ
 						if (repeat_1 == 1)
 						{
 							system("cls");
-							printf("Вводить нужно только цифры: от 0 до 9. Помните, число не может начинаться с нуля. Попробуйте снова!\n");
+							printf("Вводить нужно только цифры: от 0 до 9. Попробуйте снова!\n");
 							printf("Введите числитель второй дроби: ");
 							cin.getline(numerator2, N); cout << endl << "Пожалуйста, нажмите Enter ещё раз ";
 							cin.clear();
@@ -1989,7 +2200,7 @@ int main() // МЕНЮ
 						if (repeat_1 == 1 || repeat_2 == 1 || denominator2[0] == 45)
 						{
 							system("cls");
-							printf("Введено неверное число. Помните, знаменатель не должен авняться нулю (либо начинаться с нуля) и не может быть отрицательным.\n");
+							printf("Вводить нужно только цифры: от 0 до 9. Попробуйте снова!\n");
 							printf("Введите знаменатель второй дроби: ");
 							cin.getline(denominator2, N); cout << endl << "Пожалуйста, нажмите Enter ещё раз ";
 							cin.clear();
@@ -2231,9 +2442,13 @@ int main() // МЕНЮ
 					level--;
 				}
 
-				// МНОГОЧЛЕНЫ(Не реализованы)
+				// МНОГОЧЛЕНЫ
 				if (code == 13 && position[level] == 4)
 				{
+					int num_1[120], num_2[120], den_1[120], den_2[120], deg_1[120], deg_2[120], num_ans[120], den_ans[120], deg_ans[120];
+					int count_p1(0), count_p2(0), count_ans(0);
+					count_p1 = input_1(num_1, den_1, deg_1);
+					count_p2 = input_2(num_2, den_2, deg_2);
 					level++;
 					do {
 						system("cls");
@@ -2305,7 +2520,10 @@ int main() // МЕНЮ
 							cout << "-->";
 						cout << " Преобразование многочлена - кратные корни в простые";
 						cout << endl;
-
+						cout << "Ваши многочлены: " << endl;
+						ShowP(num_1, den_1, deg_1, count_p1);
+						cout << endl;
+						ShowP(num_2, den_2, deg_2, count_p2);
 						lowHeader();
 
 						code = _getch();
@@ -2316,6 +2534,26 @@ int main() // МЕНЮ
 							position[level]--;
 						if (code == 80 && position[level] < 13)
 							position[level]++;
+						if (code == 13)
+						{
+							switch (position[level])
+							{
+							case 1: count_ans = ADD_PP_P(num_1, den_1, deg_1, num_2, den_2, deg_2, count_p1, count_p2, num_ans, den_ans, deg_ans);
+								cout << "Результат: ";
+								ShowP(num_ans, den_ans, deg_ans, count_ans); system("pause"); break;
+							case 2: count_ans = SUB_PP_P(num_1, den_1, deg_1, num_2, den_2, deg_2, count_p1, count_p2, num_ans, den_ans, deg_ans);
+								cout << "Результат: ";
+								ShowP(num_ans, den_ans, deg_ans, count_ans); system("pause"); break; 
+							case 3:break;
+							case 4:break;
+							case 5:LED_P_Q(num_1, den_1, num_2, den_2, count_p1, count_p2); system("pause");
+								break;
+							case 6:
+								DEG_P_N(count_p1, count_p2); system("pause");
+								break;
+							case 7:break;
+							}
+						}
 
 					} while (code != 27);
 					code = 0;
