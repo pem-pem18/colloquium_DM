@@ -1,0 +1,31 @@
+//a1 и b1 - числитель и знаменатель рац. числа
+void MUL_PQ_P(int* a, int* b, int* c1, int a1, int b1,  int m, int*aa, int*bb, int* cc) {
+		char numerator_1[45], denominator_1[45], numerator_2[45], denominator_2[45];
+		char numerator_a[45], denominator_a[45];
+		bool sign_a, sign_1(0), sign_2(0);
+		
+		for (int i = 0; i <= m; i++) {
+			if (a[i] < 0) { sign_1 = 1; a[i] *= (-1); }
+			if (a1 < 0) { sign_2 = 1; a1 *= (-1); }
+			_itoa_s(a[i], numerator_1, 10);
+			_itoa_s(b[i], denominator_1, 10);
+			_itoa_s(a1, numerator_2, 10);
+			_itoa_s(b1, denominator_2, 10);
+			MUL_QQ_Q(sign_1, numerator_1, denominator_1, sign_2, numerator_2, denominator_2, sign_a, numerator_a, denominator_a);
+			aa[i] = atoi(numerator_a);
+			bb[i] = atoi(denominator_a);
+			cc[i] = i;
+			if (sign_a == 1) aa[i] *= (-1);
+		}
+	}
+  //ввод рационального числа
+  void input_D( int D_n,int D_d)
+{
+  int D_n, D_d;
+  cout << endl << "Введите рациональное число" << endl;
+	cout << "Введите числитель: ";
+	cin >> D_n;
+	cout << "Введите знаменатель:";
+	cin >> D_d;
+
+}
