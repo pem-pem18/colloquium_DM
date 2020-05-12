@@ -1,0 +1,46 @@
+int SUB_PP_P(int* a, int* b, int* c, int* a1, int* b1, int* c1, int m, int m1, int aa[], int bb[], int cc[])
+{
+	char numerator1[45], denominator1[45], numerator2[45], denominator2[45];
+	char numerator_a[45], denominator_a[45];
+	bool sign_a, sign1(0), sign2(0);
+	
+	int max, min, i(0);
+	if (m > m1) {
+		max = m;
+		min = m1;
+
+		while (m != m1)
+		{
+			cc[m] = c[m];
+			aa[m] = a[m];
+			bb[m] = b[m];
+			m--;
+		}
+	}
+	else {
+		max = m1;
+		min = m;
+		while (m1 != m)
+		{
+			cc[m1] = c1[m1];
+			aa[m1] = a1[m1] * (-1);
+			bb[m1] = b1[m1];
+			m1--;
+		}
+	}
+	for (int i = 0; i <= min; i++)
+	{
+		if (a[i] < 0) { sign1 = 1; a[i] *= (-1); }
+		if (a1[i] < 0) { sign2 = 1; a1[i] *= (-1); }
+		_itoa_s(a[i], numerator1, 10);
+		_itoa_s(b[i], denominator1, 10);
+		_itoa_s(a1[i], numerator2, 10);
+		_itoa_s(b1[i], denominator2, 10);
+		SUB_QQ_Q(sign1, numerator1, denominator1, sign2, numerator2, denominator2, sign_a, numerator_a, denominator_a);
+		aa[i] = atoi(numerator_a);
+		bb[i] = atoi(denominator_a);
+		cc[i] = i;
+		if (sign_a == 1) aa[i] *= (-1);
+	}
+	
+}
