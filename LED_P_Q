@@ -1,0 +1,11 @@
+void LED_P_Q(int* a, int*b, int* a1, int *b1, int m, int m1)
+{
+	if (a[m] % b[m] == 0)
+		cout << a[m] / b[m] << endl;
+	else
+		cout << a[m]<<"/"<<b[m]<<endl;
+	if (a1[m] % b1[m] == 0)
+		cout << a1[m] / b1[m] << endl;
+	else
+		cout << a1[m1] << "/" << b1[m1] << endl;
+}
