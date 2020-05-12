@@ -1,0 +1,93 @@
+void output(int* a, int* b, int* c,int m) //вывод
+{
+	int s(1);
+	for (int i = m; i >= 0; i--)
+	{
+		if (s == 1)
+		{
+			if (a[i] == 0) cout << "";
+			else cout << a[i] << "/" << b[i] << "x^" << c[i];
+		}
+		else
+		{
+			if (a[i] > 0)
+			{
+				if (c[i] > 0)
+					cout << "+" << a[i] << "/" << b[i] << "x^" << c[i];
+				if (c[i] == 0)
+					cout << "+" << a[i] << "/" << b[i];
+			}
+			else
+			{
+				if (a[i] == 0) cout << "";
+				else
+				{
+					if (c[i] > 0)
+						cout << a[i] << "/" << b[i] << "x^" << c[i];
+					if (c[i] == 0)
+						cout << a[i] << "/" << b[i];
+				}
+			}
+
+
+		}
+		s--;
+	}
+}
+
+int input_1(int* a, int* b, int* c) //ввод для первого многочлена
+{
+int n;
+cout << "Введите степень первого мнгочлена " << endl;
+	cin >> n;
+	int m = n;
+	
+	while (n != -1)
+	{
+		cout << "Коэффициент для х^" << n<<endl;
+		cout << "Введите числитель: ";
+		cin >> a[n];
+
+		cout << "Введите знаменатель:";
+		cin >> b[n];
+		if (((a[n] < 0) and (b[n] < 0)) or (b[n] < 0))
+		{
+			a[n] = a[n] * (-1);
+			b[n] = b[n] * (-1);
+		}
+		c[n] = n;
+		cout << "________________________"<<endl;
+		n--;
+	}
+
+	return m;
+}
+
+int input_2( int*a1, int*b1, int*c1) //ввод для второго многочлена
+{
+	int n1;
+	cout << "Введите степень второго многочлена " << endl;
+	cin >> n1;
+	int m = n1;
+	
+	while (n1 != -1)
+	{
+		cout << "Коэффициент для х^" << n1 << endl;
+		cout << "Введите числитель: ";
+		cin >> a1[n1];
+
+		cout << "Введите знаменатель:";
+		cin >> b1[n1];
+		if (((a1[n1] < 0) and (b1[n1] < 0)) or (b1[n1] < 0))
+		{
+			a1[n1] = a1[n1] * (-1);
+			b1[n1] = b1[n1] * (-1);
+		}
+		c1[n1]=n1;
+		cout << "________________________" << endl;
+		n1--;
+	}
+	return m;
+}
+
+
