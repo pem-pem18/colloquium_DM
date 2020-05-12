@@ -600,16 +600,17 @@ void ADD_ZZ_Z(bool b1, char A1[], bool* bAns, char ans[], bool b2, char A2[]) {
 	int poz1, poz2, biggest;
 	poz1 = POZ_Z_D(b1, A1);
 	poz2 = POZ_Z_D(b2, A2);
-	char* ssa1, *ssa2, *ssans;
-	ssa1 = &A1[0];
-	ssa2 = &A2[0];
-	ssans = &ans[0];
 	biggest = COM_NN_D(A1, A2);
 	if ((poz1 == 2 || poz1 == 0) && (poz2 == 2 || poz2 == 0)) {
 		ADD_NN_N(A1, A2, ans);
 		*bAns = 0;
 	}
 	else if (poz1 == 1 && poz2 == 1) {
+		ADD_NN_N(A1, A2, ans);
+		*bAns = 1;
+	}
+	else if ((poz2 == 1 && poz1 == 0) || (poz1 == 1 && poz2 == 0))
+	{
 		ADD_NN_N(A1, A2, ans);
 		*bAns = 1;
 	}
@@ -637,58 +638,9 @@ void ADD_ZZ_Z(bool b1, char A1[], bool* bAns, char ans[], bool b2, char A2[]) {
 	}
 
 }
-void SUB_ZZ_Z(bool b1, char A1[], bool* bAns, char* ans, bool b2, char A2[]) {
-	int poz1, poz2, biggest;
-	poz1 = POZ_Z_D(b1, A1);
-	poz2 = POZ_Z_D(b2, A2);
-	biggest = COM_NN_D(A1, A2);
-	if (poz2 == 0)
-	{
-		ADD_NN_N(A1, A2, ans);
-		*bAns = b1;
-	}
-	else if (poz1 == 0) {
-		ADD_NN_N(A1, A2, ans);
-		if (poz2 == 0)
-		{
-			*bAns = 0;
-		}
-		else {
-			*bAns = -b2;
-		}
-	}
-	else if (poz1 == 2) {
-		if (poz2 == 2) {
-			if (biggest == 2 || biggest == 0) {
-				SUB_NN_N(A1, A2, ans);
-				*bAns = 0;
-			}
-			else {
-				SUB_NN_N(A2, A1, ans);
-				*bAns = 1;
-			}
-		}
-		else {
-			ADD_NN_N(A1, A2, ans);
-			*bAns = 0;
-		}
-	}
-	else if (poz1 == 1) {
-		if (poz2 == 2) {
-			ADD_NN_N(A1, A2, ans);
-			*bAns = -1;
-		}
-		else {
-			if (biggest == 2) {
-				SUB_NN_N(A2, A1, ans);
-				*bAns = 1;
-			}
-			else {
-				SUB_NN_N(A1, A2, ans);
-				*bAns = 0;
-			}
-		}
-	}
+void SUB_ZZ_Z(bool b1, char A1[], bool* bAns, char ans[], bool b2, char A2[]) {
+	MUL_ZM_Z(&b2, A2);
+	ADD_ZZ_Z(b1, A1, bAns, ans, b2, A2);
 }
 void MUL_ZZ_Z(bool b1, char A1[], bool* bAns, char ans[], bool b2, char A2[]) {
 	int poz1, poz2, biggest;
@@ -757,15 +709,16 @@ void TRANS_Q_Z(bool b, char* num, char* den, bool &sign_a, char *numerator_a, ch
 void ADD_QQ_Q(bool sign_1, char *numerator_1, char *denominator_1, bool sign_2, char *numerator_2, char *denominator_2, bool &sign_a, char *numerator_a, char *denominator_a)
 {
 	const int SIZE = 45;
-	char num1[SIZE], num2[SIZE], num3[SIZE], num4[SIZE];
-	bool sign1 = 0, sign2 = 0, sign3 = 0, sign4 = 0, sign_D1 = 0, sign_D2 = 0;
+	char num1[SIZE], num2[SIZE], num3[SIZE], num4[SIZE], num_num[SIZE], num_den[SIZE];
+	bool sign1 = 0, sign2 = 0, sign3 = 0, sign4 = 0, sign_D1 = 0, sign_D2 = 0, sign_num=0, sign_den(0);
 	int sign_Da = 0;
-	LCM_NN_N(denominator_1, denominator_2, denominator_a);
-	DIV_ZZ_Z(denominator_a, sign_Da, denominator_1, sign_D1, num1, &sign1);
-	DIV_ZZ_Z(denominator_a, sign_Da, denominator_2, sign_D2, num2, &sign2);
+	LCM_NN_N(denominator_1, denominator_2, num_den);
+	DIV_ZZ_Z(num_den, sign_den, denominator_1, sign_D1, num1, &sign1);
+	DIV_ZZ_Z(num_den, sign_den, denominator_2, sign_D2, num2, &sign2);
 	MUL_ZZ_Z(sign_1, numerator_1, &sign3, num3, sign1, num1);
 	MUL_ZZ_Z(sign_2, numerator_2, &sign4, num4, sign2, num2);
-	ADD_ZZ_Z(sign3, num3, &sign_a, numerator_a, sign4, num4);
+	ADD_ZZ_Z(sign3, num3, &sign_num, num_num, sign4, num4);
+	RED_Q_Q(sign_num, num_num, num_den, sign_a, numerator_a, denominator_a);
 }
 void DIV_NN_Dk(char* num_1, char* num_2, char* result)
 {
@@ -791,24 +744,29 @@ void DIV_NN_Dk(char* num_1, char* num_2, char* result)
 void SUB_QQ_Q(bool sign_1, char *numerator_1, char *denominator_1, bool sign_2, char *numerator_2, char *denominator_2, bool &sign_a, char *numerator_a, char *denominator_a)
 {
 	const int SIZE = 45;
-	char num1[SIZE], num2[SIZE], num3[SIZE], num4[SIZE];
-	bool sign1 = 0, sign2 = 0, sign3 = 0, sign4 = 0, sign_D1 = 0, sign_D2 = 0;
+	char num1[SIZE], num2[SIZE], num3[SIZE], num4[SIZE], num_num[SIZE], num_den[SIZE];
+	bool sign1 = 0, sign2 = 0, sign3 = 0, sign4 = 0, sign_D1 = 0, sign_D2 = 0, sign_num = 0, sign_den(0);
 	int sign_Da = 0;
-	LCM_NN_N(denominator_1, denominator_2, denominator_a);
-	DIV_ZZ_Z(denominator_a, sign_Da, denominator_1, sign_D1, num1, &sign1);
-	DIV_ZZ_Z(denominator_a, sign_Da, denominator_2, sign_D2, num2, &sign2);
-	MUL_ZZ_Z(sign_1, numerator_1 , &sign3,num3, sign1, num1);
-	MUL_ZZ_Z(sign_2,numerator_2,  &sign4, num4, sign2, num2);
-	SUB_ZZ_Z(sign3, num3, &sign_a, numerator_a, sign4, num4);
+	LCM_NN_N(denominator_1, denominator_2, num_den);
+	DIV_ZZ_Z(num_den, sign_den, denominator_1, sign_D1, num1, &sign1);
+	DIV_ZZ_Z(num_den, sign_den, denominator_2, sign_D2, num2, &sign2);
+	MUL_ZZ_Z(sign_1, numerator_1, &sign3, num3, sign1, num1);
+	MUL_ZZ_Z(sign_2, numerator_2, &sign4, num4, sign2, num2);
+	SUB_ZZ_Z(sign3, num3, &sign_num, num_num, sign4, num4);
+	RED_Q_Q(sign_num, num_num, num_den, sign_a, numerator_a, denominator_a);
 }
 void MUL_QQ_Q(bool sign_1, char *numerator_1, char *denominator_1, bool sign_2, char *numerator_2, char *denominator_2, bool &sign_a, char *numerator_a, char *denominator_a)
 {
-	bool sign_D1 = 0, sign_D2 = 0, sign_Da;
-	MUL_ZZ_Z(sign_1, numerator_1 ,&sign_a , numerator_a,sign_2 , numerator_2);
-	MUL_ZZ_Z(sign_D1,denominator_1,&sign_Da,denominator_a,sign_D2,denominator_2);
+	const int SIZE = 45;
+	bool sign_D1 = 0, sign_D2 = 0, sign_Da, sign_den(0), sign_num(0);
+	char num[SIZE], den[SIZE];
+	MUL_ZZ_Z(sign_1, numerator_1 ,&sign_num ,num,sign_2 , numerator_2);
+	MUL_ZZ_Z(sign_D1,denominator_1,&sign_den,den,sign_D2,denominator_2);
+	RED_Q_Q(sign_num, num, den, sign_a, numerator_a, denominator_a);
 }
 void DIV_QQ_Q(bool sign_1, char *numerator_1, char *denominator_1,bool sign_2, char *numerator_2, char *denominator_2, bool &sign_a, char *numerator_a, char *denominator_a)
 {
+	const int SIZE = 45;
 	bool repeat(0);
 	int i = 0;
 	while (numerator_2[i] == 48) i++;
@@ -816,9 +774,10 @@ void DIV_QQ_Q(bool sign_1, char *numerator_1, char *denominator_1,bool sign_2, c
 	else repeat = 0;
 	if (!repeat)
 	{
-		bool sign_D1 = 0, sign_D2 = 0, sign_Da;
-		MUL_ZZ_Z(sign_1,numerator_1, &sign_a, numerator_a,sign_D2,  denominator_2 );
-		MUL_ZZ_Z(sign_D1,denominator_1, &sign_Da, denominator_a,  sign_2, numerator_2);
+		bool sign_D1 = 0, sign_D2 = 0, sign_Da, sign_den(0), sign_num(0); char num[SIZE], den[SIZE];
+		MUL_ZZ_Z(sign_1,numerator_1, &sign_num, num,sign_D2,  denominator_2 );
+		MUL_ZZ_Z(sign_D1,denominator_1, &sign_den, den,  sign_2, numerator_2);
+		RED_Q_Q(sign_num, num, den, sign_a, numerator_a, denominator_a);
 	}
 }
 
@@ -1328,14 +1287,27 @@ int main() // МЕНЮ
 									if (compare == 2 || compare == 0)
 									{
 										DIV_NN_N(arr_1, arr_2, arr_ans);
+										cout << endl << "Результат деления: ";
+										cout << endl;
+										Show(arr_ans);
+										MOD_NN_N(arr_1, arr_2, arr_ans);
+										cout << endl << "Остаток: ";
+										cout << endl;
+										Show(arr_ans);
+
 									}
 									else
 									{
 										DIV_NN_N(arr_2, arr_1, arr_ans);
+										cout << endl << "Результат деления: ";
+										cout << endl;
+										Show(arr_ans);
+										MOD_NN_N(arr_2, arr_1, arr_ans);
+										cout << endl << "Остаток: ";
+										cout << endl;
+										Show(arr_ans);
 									}
-									cout << endl << "Результат деления: ";
-									cout << endl;
-									Show(arr_ans);
+									
 									
 								}
 								cout << endl;
@@ -1361,9 +1333,9 @@ int main() // МЕНЮ
 									}
 									else
 									{
-										MOD_NN_N(arr_1, arr_2, arr_ans);
+										MOD_NN_N(arr_2, arr_1, arr_ans);
 									}
-									cout << endl << "Результат деления: ";
+									cout << endl << "Остаток: ";
 									cout << endl;
 									Show(arr_ans);
 
@@ -1534,7 +1506,7 @@ int main() // МЕНЮ
 
 						if (position[level] == 9)
 							cout << "-->";
-						cout << " Деление с остатком";
+						cout << " Деление";
 						cout << endl;
 
 						if (position[level] == 10)
@@ -1790,6 +1762,11 @@ int main() // МЕНЮ
 										cout << endl;
 										ShowZ(sign_ans, arr_ans);
 										cout << endl;
+										MOD_ZZ_Z(arr_2, arr_1, arr_ans);
+										cout << endl << "Остаток: ";
+										cout << endl;
+										Show(arr_ans);
+										cout << endl;
 										system("pause");
 									}
 								}
@@ -1812,6 +1789,11 @@ int main() // МЕНЮ
 										cout << endl;
 										ShowZ(sign_ans, arr_ans);
 										cout << endl;
+										MOD_ZZ_Z(arr_1, arr_2, arr_ans);
+										cout << endl << "Остаток: ";
+										cout << endl;
+										Show(arr_ans);
+										cout << endl;
 										system("pause");
 									}
 								}
@@ -1833,7 +1815,7 @@ int main() // МЕНЮ
 									else
 									{
 										MOD_ZZ_Z(arr_2, arr_1, arr_ans);
-										cout << endl << "Результат деления большего числа на меньшее: ";
+										cout << endl << "Остаток: ";
 										cout << endl;
 										Show(arr_ans);
 										cout << endl;
@@ -1855,7 +1837,7 @@ int main() // МЕНЮ
 									else
 									{
 										MOD_ZZ_Z(arr_1, arr_2, arr_ans);
-										cout << endl << "Результат деления большего числа на меньшее: ";
+										cout << endl << "Остаток: ";
 										cout << endl;
 										Show(arr_ans);
 										cout << endl;
@@ -2222,21 +2204,21 @@ int main() // МЕНЮ
 								break;
 							case 6: 
 								SUB_QQ_Q(sign_n1, numerator1, denominator1, sign_n2, numerator2, denominator2, sign_na, numerator_a, denominator_a);
-								cout << "Результат сложения: ";
+								cout << "Результат вычитания: ";
 								ShowQ(sign_na, numerator_a, denominator_a);
 								cout << endl;
 								system("pause");
 								break;
 							case 7: 
 								MUL_QQ_Q(sign_n1, numerator1, denominator1, sign_n2, numerator2, denominator2, sign_na, numerator_a, denominator_a);
-								cout << "Результат сложения: ";
+								cout << "Результат умножения: ";
 								ShowQ(sign_na, numerator_a, denominator_a);
 								cout << endl;
 								system("pause");
 								break;
 							case 8: 
 								DIV_QQ_Q(sign_n1, numerator1, denominator1, sign_n2, numerator2, denominator2, sign_na, numerator_a, denominator_a);
-								cout << "Результат сложения: ";
+								cout << "Результат деления: ";
 								ShowQ(sign_na, numerator_a, denominator_a);
 								cout << endl;
 								system("pause");
@@ -2249,7 +2231,7 @@ int main() // МЕНЮ
 					level--;
 				}
 
-				// МНОГОЧЛЕНЫ
+				// МНОГОЧЛЕНЫ(Не реализованы)
 				if (code == 13 && position[level] == 4)
 				{
 					level++;
