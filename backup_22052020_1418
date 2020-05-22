@@ -1,0 +1,669 @@
+#include <iostream>
+#include <stdio.h>
+#include <conio.h>
+#include <Windows.h>
+
+using namespace std;
+
+int INPUT_FIELD(int dific)
+{
+	int code(0);
+
+	switch (dific)
+	{
+
+	case 1:
+		const int vertical(10), horizontal(10); // размер поля
+		bool field[vertical][horizontal]; // поле для расстановки (клетка занята - 1, пустая - 0)
+		bool field_s[vertical][horizontal]; // поле для сохранения
+		bool field_error[vertical][horizontal]; // поле перекрещивания (0 - ничего нет, 1 - рядом или на сама клетка заняты) (не допускает накладывания или постановку кораблей на смежные клетки, диагонально в том числе)
+
+		bool turn(0); // переключатель поворота корабля (1 - горизонтально, 0 - вертикально)
+
+		int left[5]; // массив остатков кораблей (индекс = кол-во палуб корабля; 0-ой сумма оставшихся кораблей)
+
+		int add_counter(4); // доп. счетчик для подсчета кол-ва кораблей
+
+		struct coord // координаты конца (для поворота и переноса)
+		{
+			short x; // горизонталь
+			short y; // вертикаль
+		};
+		coord end;
+		end.x = 0;
+		end.y = 0;
+		coord head;
+		head.x = 0;
+		head.y = 0;
+
+		short add_coord(0);
+
+		bool add_mas[vertical][horizontal] = { 0 }; // доп массив для работы с поворотами
+
+		int left_cells(0); // осталось клеток для переноса
+		int left_cells_clean(0); // осталось клеток для чистки
+
+		bool is_empty(0);
+
+		// инициализация остатков
+		for (int i = 1; i < 5; add_counter--, i++)
+		{
+			left[i] = add_counter;
+		}
+		left[0] = 10;
+
+		// инициализация поля выбора (пусто)
+		for (int i = 0; i < vertical; i++)
+		{
+			for (int j = 0; j < horizontal; j++)
+			{
+				field[i][j] = 0;
+			}
+		}
+
+		// инициализация поля сохранения (пусто)
+		for (int i = 0; i < vertical; i++)
+		{
+			for (int j = 0; j < horizontal; j++)
+			{
+				field_s[i][j] = 0;
+			}
+		}
+
+		// инициализация поля перекрещивания
+		for (int i = 0; i < vertical; i++)
+		{
+			for (int j = 0; j < horizontal; j++)
+			{
+				field_error[i][j] = 0;
+			}
+		}
+
+		// конец инициализации
+		//
+		//
+
+		do
+		{
+			turn = 0; // обнуленуление поворота
+
+
+
+			// постановка четырехпалубника в начало поля (место по умолчанию)
+			if (left[4])
+			{
+				for (int i = 0; i < vertical; i++)
+				{
+					for (int j = 0; j < horizontal; j++)
+					{
+						if (i < 4 && j == 0 && turn == 0)
+							field[i][j] = 1;
+						else if (i == 0 && j < 4 && turn == 1)
+							field[i][j] = 1;
+					}
+				}
+				head.x = 0;
+				head.y = 0;
+				end.x = 0;
+				end.y = 3;
+			}
+
+			// постановка трехпалубника в начало поля (место по умолчанию)
+			else if (!left[4] && left[3])
+			{
+				for (int i = 0; i < vertical; i++)
+				{
+					for (int j = 0; j < horizontal; j++)
+					{
+						if (i < 3 && j == 0 && turn == 0)
+							field[i][j] = 1;
+						else if (i == 0 && j < 3 && turn == 1)
+							field[i][j] = 1;
+					}
+				}
+				head.x = 0;
+				head.y = 0;
+				end.x = 0;
+				end.y = 2;
+
+			}
+
+			// постановка двухпалубников в начало поля (место по умолчанию)
+			else if (!left[4] && !left[3] && left[2])
+			{
+				for (int i = 0; i < vertical; i++)
+				{
+					for (int j = 0; j < horizontal; j++)
+					{
+						if (i < 2 && j == 0 && turn == 0)
+							field[i][j] = 1;
+						else if (i == 0 && j < 2 && turn == 1)
+							field[i][j] = 1;
+					}
+				}
+				head.x = 0;
+				head.y = 0;
+				end.x = 0;
+				end.y = 1;
+			}
+
+			// постановка однопалубников в начало поля (место по умолчанию)
+			else if (!left[4] && !left[3] && !left[2] && left[1])
+			{
+				for (int i = 0; i < vertical; i++)
+				{
+					for (int j = 0; j < horizontal; j++)
+					{
+						if (i < 1 && j == 0 && turn == 0)
+							field[i][j] = 1;
+						else if (i == 0 && j < 1 && turn == 1)
+							field[i][j] = 1;
+					}
+				}
+				head.x = 0;
+				head.y = 0;
+				end.x = 0;
+				end.y = 0;
+
+			}
+
+			do
+			{
+				system("cls");
+
+				// вывод поля выбора
+				cout << " <ПОЛЕ ВЫБОРА КООРДИНАТ КОРАБЛЕЙ>" << endl;
+				cout << "   А Б В Г Д Е Ж З И К" << endl;
+				for (int i = 0; i < vertical; i++)
+				{
+					if (i < 9)
+						cout << " ";
+					cout << i + 1 << " ";
+					for (int j = 0; j < horizontal; j++)
+					{
+						if (!field[i][j])
+							cout << char(32);
+						else if (field[i][j])
+							cout << char(178);
+						cout << " ";
+					}
+					cout << endl;
+				}
+				// конец вывода поля выбора
+
+				// вывод поля сохранения
+				cout << " <ПОЛЕ СОХРАНЕННЫХ КООРДИНАТ КОРАБЛЕЙ>" << endl;
+				cout << "   А Б В Г Д Е Ж З И К" << endl;
+				for (int i = 0; i < vertical; i++)
+				{
+					if (i < 9)
+						cout << " ";
+					cout << i + 1 << " ";
+					for (int j = 0; j < horizontal; j++)
+					{
+						if (!field_s[i][j])
+							cout << char(32);
+						else if (field_s[i][j])
+							cout << char(178);
+						cout << " ";
+					}
+					cout << endl;
+				}
+				// конец вывода поля сохранения
+
+				// ввод
+				code = _getch();
+				if (code == 224)
+					code = _getch();
+				// конец ввода
+
+				// сравнение полей (совпадение/соприкосновение координат сохраненного корабля и устанавливаемого)
+				for (int i = 0; i < vertical; i++)
+				{
+					for (int j = 0; j < horizontal; j++)
+					{
+						if (i == 0 && j == 0 && (field_s[i + 1][j] || field_s[i + 1][j + 1] || field_s[i][j + 1] || field_s[i][j]))
+							field_error[i][j] = 1;
+						else if (i == 0 && j > 0 && j < horizontal - 1 && (field_s[i][j - 1] || field_s[i + 1][j - 1] || field_s[i + 1][j] || field_s[i + 1][j + 1] || field_s[i][j + 1]) || field_s[i][j])
+							field_error[i][j] = 1;
+						else if (i == 0 && j == horizontal - 1 && (field_s[i][j - 1] || field_s[i + 1][j - 1] || field_s[i + 1][j] || field_s[i][j]))
+							field_error[i][j] = 1;
+						else if (i > 0 && i < vertical - 1 && j == 0 && (field_s[i + 1][j] || field_s[i + 1][j + 1] || field_s[i][j + 1] || field_s[i - 1][j + 1] || field_s[i - 1][j] || field_s[i][j]))
+							field_error[i][j] = 1;
+						else if (i > 0 && i < vertical - 1 && j > 0 && j < horizontal - 1 && (field_s[i - 1][j - 1] || field_s[i][j - 1] || field_s[i + 1][j - 1] || field_s[i + 1][j] || field_s[i + 1][j + 1] || field_s[i][j + 1] || field_s[i - 1][j + 1] || field_s[i - 1][j] || field_s[i][j]))
+							field_error[i][j] = 1;
+						else if (i > 0 && i < vertical - 1 && j == horizontal - 1 && (field_s[i - 1][j] || field_s[i - 1][j - 1] || field_s[i][j - 1] || field_s[i + 1][j - 1] || field_s[i + 1][j] || field_s[i][j]))
+							field_error[i][j] = 1;
+						else if (i == vertical - 1 && j == 0 && (field_s[i][j + 1] || field_s[i - 1][j + 1] || field_s[i - 1][j] || field_s[i][j]))
+							field_error[i][j] = 1;
+						else if (i == vertical - 1 && j > 0 && j < horizontal - 1 && (field_s[i][j + 1] || field_s[i - 1][j + 1] || field_s[i - 1][j] || field_s[i - 1][j - 1] || field_s[i][j - 1] || field_s[i][j]))
+							field_error[i][j] = 1;
+						else if (i == vertical - 1 && j == horizontal - 1 && (field_s[i - 1][j] || field_s[i - 1][j - 1] || field_s[i][j - 1] || field_s[i][j]))
+							field_error[i][j] = 1;
+					}
+				}
+
+				/*if (left[4])
+					left_cells = 4;
+				else if (left[3])
+					left_cells = 3;
+				else if (left[2])
+					left_cells = 2;
+				else if (left[1])
+					left_cells = 1;
+					*/
+
+					// перенос вниз
+				if (code == 80 && end.y < vertical - 1)
+				{
+					head.y++;
+					end.y++;
+					for (int i = vertical - 1; i >= 0; i--)
+					{
+						for (int j = 0; j < horizontal; j++)
+						{
+							if (i > 0)
+								field[i][j] = field[i - 1][j];
+							else
+								field[i][j] = 0;
+						}
+					}
+				}
+
+				// перенос вверх
+				if (code == 72 && head.y > 0)
+				{
+					head.y--;
+					end.y--;
+					for (int i = 0; i < vertical; i++)
+					{
+						for (int j = 0; j < horizontal; j++)
+						{
+							if (i < vertical - 1)
+								field[i][j] = field[i + 1][j];
+							else
+								field[i][j] = 0;
+						}
+					}
+				}
+
+				// перенос вправо
+				if (code == 77 && end.x < horizontal - 1)
+				{
+					head.x++;
+					end.x++;
+					for (int i = 0; i < vertical; i++)
+					{
+						for (int j = horizontal - 1; j >= 0; j--)
+						{
+							if (j > 0)
+								field[i][j] = field[i][j - 1];
+							else
+								field[i][j] = 0;
+						}
+					}
+				}
+
+				// перенос влево
+				if (code == 75 && head.x > 0)
+				{
+					head.x--;
+					end.x--;
+					for (int i = 0; i < vertical; i++)
+					{
+						for (int j = 0; j < horizontal; j++)
+						{
+							if (j < horizontal - 1)
+								field[i][j] = field[i][j + 1];
+							else
+								field[i][j] = 0;
+
+
+						}
+					}
+				}
+
+				// поворот корабля (ПРАВИТЬ)
+				if (code == 44 || code == 46 || code == 161 || code == 238) //&&
+					//end.x <= 9 && end.y <= 9)
+				{
+					for (int i = 0; i < vertical; i++)
+					{
+						for (int j = 0; j < horizontal; j++)
+						{
+							add_mas[i][j] = field[i][j];
+						}
+					}
+					for (int i = 0; i < vertical; i++)
+					{
+						for (int j = 0; j < horizontal; j++)
+						{
+							field[i][j] = add_mas[j][i];
+						}
+					}
+
+					add_coord = end.x;
+					end.x = end.y;
+					end.y = add_coord;
+
+					add_coord = head.x;
+					head.x = head.y;
+					head.y = add_coord;
+
+					turn = !turn;
+				}
+
+				// постановка корабля на выбранную позицию (сохранение)
+				if (code == 13) // + ДОП УСЛОВИЕ ДЛЯ НЕПЕРЕСЕЧЕНИЯ
+				{
+					for (int i = 0; i < vertical; i++)
+					{
+						for (int j = 0; j < horizontal; j++)
+						{
+							if (field[i][j])
+							{
+								field_s[i][j] = field[i][j];
+								field[i][j] = 0;
+							}
+						}
+					}
+
+					if (left[4])
+						left[4]--;
+					else if (left[3])
+						left[3]--;
+					else if (left[2])
+						left[2]--;
+					else
+						left[1]--;
+					left[0]--;
+
+
+				}
+
+			} while (code != 13);
+			//code = 0;
+
+		} while (code != 27);
+		if (code == 27)
+			return 0;
+
+		break;
+
+	}
+
+	return 1;
+}
+
+// "Уровни сложности"
+void dificHeader(int dific)
+{
+	switch (dific)
+	{
+	case 1: // "Новичок"
+		cout << "Размер поля: 10x10" << endl;
+		cout << "x1 ";
+		for (int i = 0; i < 4; i++)
+		{
+			cout << char(291);
+		}
+		cout << endl;
+		cout << "x2 ";
+		for (int i = 0; i < 3; i++)
+		{
+			cout << char(291);
+		}
+		cout << endl;
+		cout << "x3 ";
+		for (int i = 0; i < 2; i++)
+		{
+			cout << char(291);
+		}
+		cout << endl;
+		cout << "x4 ";
+		for (int i = 0; i < 1; i++)
+		{
+			cout << char(291);
+		}
+		cout << endl;
+		break;
+	case 2: // "Обычный"
+		cout << "Размер поля: 15x15" << endl;
+		cout << "x2 ";
+		for (int i = 0; i < 4; i++)
+		{
+			cout << char(291);
+		}
+		cout << endl;
+		cout << "x4 ";
+		for (int i = 0; i < 3; i++)
+		{
+			cout << char(291);
+		}
+		cout << endl;
+		cout << "x6 ";
+		for (int i = 0; i < 2; i++)
+		{
+			cout << char(291);
+		}
+		cout << endl;
+		cout << "x8 ";
+		for (int i = 0; i < 1; i++)
+		{
+			cout << char(291);
+		}
+		cout << endl;
+		break;
+	case 3:
+		cout << "Нет данных" << endl;
+		break;
+	}
+}
+
+
+int main()
+{
+	setlocale(LC_ALL, "");
+
+	const int max_upright(50), max_horizontal(50); // максимальная размерность поля
+	int upright(0), horizontal(0); // параметры размерности
+
+	char field_one[max_upright] = { 0 }; // поле для вывода
+	char field_two[max_horizontal] = { 0 }; // поле для вывода
+
+	int i(0), j(0); // счетчики
+
+	int code(0);
+
+	const int levelMax = 50; // максимальное клубина меню
+	int level(0); // уровень погружения в меню
+	int position[levelMax] = { 0 };
+
+	bool exit(0); // тотальный выход
+
+	int dific(1); // настройка сложности
+
+	// "Главное меню"
+	do
+	{
+		system("cls");
+
+		cout << "<ГЛАВНОЕ МЕНЮ>" << endl;
+		if (position[level] == 0)
+			cout << "--> ";
+		cout << "Начать" << endl;
+		if (position[level] == 1)
+			cout << "--> ";
+		cout << "Настройки" << endl;
+		if (position[level] == 2)
+			cout << "--> ";
+		cout << "Разработчики" << endl;
+		if (position[level] == 3)
+			cout << "--> ";
+		cout << "Выход" << endl;
+
+		code = _getch();
+		if (code == 224)
+			code = _getch();
+
+		if (position[level] < 3 && code == 80) // вниз
+			position[level] ++;
+		if (position[level] > 0 && code == 72) // вверх
+			position[level]--;
+
+		if (position[level] == 0 && code == 13)
+		{
+			level++;
+			do
+			{
+				if (!INPUT_FIELD(dific))
+					code = 27;
+
+			} while (code != 27);
+			position[level] = 0;
+			level--;
+			code = 0;
+		}
+
+		// "Настройки"
+		if (position[level] == 1 && code == 13)
+		{
+			level++;
+			do
+			{
+				system("cls");
+
+				cout << "<Настройки>" << endl;
+				if (position[level] == 0)
+					cout << " --> ";
+				cout << " Уровень сложности" << endl;
+				if (position[level] == 1)
+					cout << "--> ";
+				cout << " Рекорды" << endl;
+
+				code = _getch();
+				if (code == 224)
+					code = _getch();
+
+				if (position[level] < 2 && code == 80) // вниз
+					position[level] ++;
+				if (position[level] > 0 && code == 72) // вверх
+					position[level]--;
+
+				// "Уровень сложности"
+				if (position[level] == 0 && code == 13)
+				{
+					level++;
+					do
+					{
+						system("cls");
+
+						cout << "<Уровень сложности>" << endl;
+						if (position[level] == 0)
+							cout << " --> ";
+						cout << " Новичок";
+						if (dific == 1)
+							cout << " (Выбрано)";
+						cout << endl;
+						if (position[level] == 1)
+							cout << "--> ";
+						cout << " Обычный";
+						if (dific == 2)
+							cout << " (Выбрано)";
+						cout << endl;
+						if (position[level] == 2)
+							cout << "--> ";
+						cout << " Продвинутый";
+						if (dific == 3)
+							cout << " (Выбрано)";
+						cout << endl;
+
+						dificHeader(dific);
+
+						code = _getch();
+						if (code == 224)
+							code = _getch();
+
+						if (position[level] < 2 && code == 80) // вниз
+							position[level]++;
+						if (position[level] > 0 && code == 72) // вверх
+							position[level]--;
+
+						if (position[level] == 0 && code == 13)
+							dific = 1; // "Новичок"
+						if (position[level] == 1 && code == 13)
+							dific = 2; // "Обычный"
+						if (position[level] == 2 && code == 13)
+							dific = 3; // "Продвинутый"
+
+					} while (code != 27);
+					position[level] = 0;
+					level--;
+					code = 0;
+				}
+
+				// "Рекорды"
+				if (position[level] == 1 && code == 13)
+				{
+					level++;
+					do
+					{
+						system("cls");
+
+						cout << "Здесь должны быть рекорды" << endl;
+						code = _getch();
+
+					} while (code != 27);
+					position[level] = 0;
+					level--;
+					code = 0;
+				}
+				//if (position[level] == 2 && code == 13)
+
+
+			} while (code != 27);
+			position[level] = 0;
+			level--;
+			code = 0;
+		}
+
+		// "Вы уверены что хотите выйти?"
+		if ((position[level] == 3 && code == 13) || code == 27)
+		{
+			level++;
+			do
+			{
+				system("cls");
+
+				cout << "Вы уверены, что хотите выйти?" << endl;
+				if (position[level] == 0)
+					cout << "--> ";
+				cout << " " << "Да" << endl;
+				if (position[level] == 1)
+					cout << "--> ";
+				cout << " " << "Нет" << endl;
+
+				code = _getch();
+				if (code == 224)
+					code = _getch();
+
+				if (position[level] < 1 && code == 80) // вниз
+					position[level]++;
+				if (position > 0 && code == 72) // вверх
+					position[level]--;
+				if (position[level] == 0 && code == 13) // выбор "Да"
+					return 0;
+				if (position[level] == 1 && code == 13) // выбор "Нет"
+					code = 27;
+
+			} while (code != 27);
+			position[level] = 0;
+			level--;
+			code = 0;
+		}
+
+	} while (exit == 0);
+
+	system("pause");
+	return 0;
+}
